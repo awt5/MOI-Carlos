@@ -11,6 +11,7 @@ pipeline{
             steps{
                 sh 'echo "Running tests"'
                 sh 'java -version'
+                sh 'git --version'
             }  
         } 
     }
