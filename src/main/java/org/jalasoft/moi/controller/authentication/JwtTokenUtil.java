@@ -40,7 +40,7 @@ public class JwtTokenUtil {
         String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(currentTime))
-                .setExpiration(new Date(currentTime + 300000))
+                .setExpiration(new Date(currentTime + 3000000))
                 .signWith(SignatureAlgorithm.HS256, secret.getBytes())
                 .compact();
         return token;
