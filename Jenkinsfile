@@ -13,6 +13,20 @@ pipeline{
                 sh 'java -version'
                 sh 'git --version'
             }  
+        }
+        stage('Deploy'){
+            parallel {
+                stage('DeployToDevEnv'){
+                    steps{
+                        sh 'echo "Deploying to Dev environment"'
+                    }
+                }
+                stage('DeployToQaEnv'){
+                    steps{
+                        sh 'echo "Deploying to Qa environment"'
+                    }
+                }
+            }
         } 
     }
 }
