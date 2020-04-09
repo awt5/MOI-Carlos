@@ -14,6 +14,12 @@ pipeline{
                 sh 'git --version'
             }  
         }
+        stage('publish to factory'){
+            steps{
+                sh 'exit -1'
+            }
+
+        }
         stage('Deploy'){
             parallel {
                 stage('DeployToDevEnv'){
