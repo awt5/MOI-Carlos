@@ -60,7 +60,7 @@ public class PythonCommandBuilder implements ICommandBuilder {
      * @return execution command
      */
     private String commandToRun(Path path) {
-        String fileMain = "\\MainClass.py";
+        String fileMain = "/MainClass.py";
         return pythonPath + " " + path + fileMain;
     }
 
