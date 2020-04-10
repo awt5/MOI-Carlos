@@ -37,9 +37,9 @@ pipeline{
             echo 'Execute when it fails'
         }
         success {
-            mail    to: juancitopinto236@gmail.com, 
-                    subject: 'The pipeline execute success!!!',
-                    body: 'The pipeline has been well executed'
+            mail to: 'juancitopinto236@gmail.com', 
+                 subject: "The pipeline execute success!!!",
+                 body: "The pipeline has been well executed"
         }
     }
 }
