@@ -40,8 +40,7 @@ pipeline{
             echo 'Execute Always message'
         }
         failure {
-            mail to: 'juancitopinto236@gmail.com',
-                 to: 'kenshinmc23@gamil.com',
+            mail to: 'juancitopinto236@gmail.com, kenshinmc23@gamil.com',
                  subject: "The pipeline execute success!!!",
                  body: "The pipeline has been well executed"
         }
