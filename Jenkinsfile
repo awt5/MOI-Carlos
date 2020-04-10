@@ -14,12 +14,6 @@ pipeline{
                 sh 'git --version'
             }  
         }
-        stage('publish to factory'){
-            steps{
-                sh 'exit -1'
-            }
-
-        }
         stage('Deploy'){
             parallel {
                 stage('DeployToDevEnv'){
@@ -34,5 +28,16 @@ pipeline{
                 }
             }
         } 
+    }
+    post {
+        always {
+            echo 'Execute Always message'
+        }
+        failure {
+            echo 'Execute when it fails'
+        }
+        success {
+            echo 'Execute when it success'
+        }
     }
 }
