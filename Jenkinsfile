@@ -41,8 +41,8 @@ pipeline{
         }
         failure {
             mail to: 'juancitopinto236@gmail.com, kenshinmc23@gamil.com',
-                 subject: "The pipeline execute success!!!",
-                 body: "The pipeline has been well executed"
+                 subject: "Failed Pipeline!!!",
+                 body: "Fail execution of the pipeline"
         }
         success {
             mail to: 'juancitopinto236@gmail.com', 
