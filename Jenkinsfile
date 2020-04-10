@@ -28,13 +28,14 @@ pipeline{
                 }
             }
         } 
-    }
-    stage('Stage For test Post messages'){
+        stage('Stage For test Post messages'){
             steps {
                 sh 'exit -1'
             }
 
         }
+    }
+    
     post {
         always {
             echo 'Execute Always message'
