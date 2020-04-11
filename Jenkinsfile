@@ -37,7 +37,7 @@ pipeline{
         } */
     }
     environment {
-        EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com'
+        EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com, guillermitomc3@gmail.com'
         EMAIL_ADMIN = 'kenshinmc23@gmail.com'
         EMAIL_ME = 'guillermitomc3@gmail.com'
     }
@@ -49,12 +49,12 @@ pipeline{
         }
         failure {
             mail to: "${EMAIL_TEAM}",
-                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
                  body: "Something is wrong with ${env.BUILD_URL}"
         }
         success {
             mail to: "${EMAIL_ME}", 
-                 subject: "Successfull Pipeline: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                 subject: "${currentBuild.currentResult} Pipeline: ${env.JOB_NAME}${env.BUILD_NUMBER}",
                  body: "The pipeline ${env.BUILD_URL} has been well executed"
         }
     }
