@@ -41,7 +41,7 @@ pipeline{
         always {
             mail to: 'kenshinmc23@gmail.com', 
                  subject: "${currentBuild.status} Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "The pipeline ${env.BUILD_URL} has been well executed"
+                 body: "The pipeline ${env.BUILD_URL} has been well executed."
         }
         failure {
             mail to: 'juancitopinto236@gmail.com, kenshinmc23@gmail.com',
