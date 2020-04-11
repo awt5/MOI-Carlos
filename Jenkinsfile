@@ -29,12 +29,12 @@ pipeline{
                 }
             }
         } 
-        stage('Stage For test Post messages'){
+        /* stage('Stage For test Post messages'){
             steps {
                 sh 'exit 1'
             }
 
-        }
+        } */
     }
     environment {
         EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com'
