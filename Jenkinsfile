@@ -44,8 +44,8 @@ pipeline{
     post {
         always {
             mail to: "${EMAIL_ADMIN}", 
-                 subject: "${env.BUILD_STATUS} Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "The pipeline ${env.BUILD_URL} has been well executed."
+                 subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "The pipeline ${env.BUILD_URL} has been executed."
         }
         failure {
             mail to: "${EMAIL_TEAM}",
