@@ -31,7 +31,7 @@ pipeline{
         } 
         stage('Stage For test Post messages'){
             steps {
-                sh 'exit -1'
+                sh 'exit 1'
             }
 
         }
