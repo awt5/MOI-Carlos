@@ -4,6 +4,7 @@ pipeline{
         stage('Build'){ 
             steps{
                 sh 'echo "Start building app"'
+                sh 'chmod -x gradlew'
                 sh './gradlew clean assemble'
             }  
         }
@@ -42,13 +43,13 @@ pipeline{
         }
         failure {
             mail to: 'juancitopinto236@gmail.com, kenshinmc23@gmail.com',
-                 subject: "Failed Pipeline!!!",
-                 body: "Fail execution of the pipeline"
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "Something is wrong with ${env.BUILD_URL}"
         }
         success {
-            mail to: 'juancitopinto236@gmail.com', 
-                 subject: "The pipeline execute success!!!",
-                 body: "The pipeline has been well executed"
+            mail to: 'kenshinmc23@gmail.com', 
+                 subject: "Success Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "The pipeline ${env.BUILD_URL} has been well executed"
         }
     }
 }
