@@ -38,13 +38,13 @@ pipeline{
     }
     environment {
         EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com'
-        EMAIL_ADMIN = 'guillermitomc3@gmail.com'
-        EMAIL_ME = 'kenshinmc23@gmail.com'
+        EMAIL_ADMIN = 'kenshinmc23@gmail.com'
+        EMAIL_ME = 'guillermitomc3@gmail.com'
     }
     post {
         always {
             mail to: "${EMAIL_ADMIN}", 
-                 subject: "Successfull Pipeline: ${currentBuild.fullDisplayName}",
+                 subject: "${env.BUILD_STATUS} Pipeline: ${currentBuild.fullDisplayName}",
                  body: "The pipeline ${env.BUILD_URL} has been well executed."
         }
         failure {
