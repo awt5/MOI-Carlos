@@ -36,21 +36,25 @@ pipeline{
 
         }
     }
-    
+    environment {
+        EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com'
+        EMAIL_ADMIN = 'kenshinmc23@gmail.com'
+        EMAIL_ME = 'kenshinmc23@gmail.com'
+    }
     post {
         always {
-            mail to: 'kenshinmc23@gmail.com', 
-                 subject: "${currentBuild.status} Pipeline: ${currentBuild.fullDisplayName}",
+            mail to: "${EMAIL_ADMIN}", 
+                 subject: "Successfull Pipeline: ${currentBuild.fullDisplayName}",
                  body: "The pipeline ${env.BUILD_URL} has been well executed."
         }
         failure {
-            mail to: 'juancitopinto236@gmail.com, kenshinmc23@gmail.com',
-                 subject: "${currentBuild.status} Pipeline: ${currentBuild.fullDisplayName}",
+            mail to: "${EMAIL_TEAM}",
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                  body: "Something is wrong with ${env.BUILD_URL}"
         }
         success {
-            mail to: 'kenshinmc23@gmail.com', 
-                 subject: "${currentBuild.status} Pipeline: ${currentBuild.fullDisplayName}",
+            mail to: "${EMAIL_ME}", 
+                 subject: "Successfull Pipeline: ${currentBuild.fullDisplayName}",
                  body: "The pipeline ${env.BUILD_URL} has been well executed"
         }
     }
