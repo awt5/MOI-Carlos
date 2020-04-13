@@ -8,6 +8,7 @@
  */
 
 package org.jalasoft.moi.model.exceptions;
+/*
 
 import org.jalasoft.moi.controller.services.ProcessService;
 import org.jalasoft.moi.model.core.Executer;
@@ -21,3 +22,4 @@ public class InputParametersExceptionTest {
         executer.processAnswer(null);
     }
 }
+*/

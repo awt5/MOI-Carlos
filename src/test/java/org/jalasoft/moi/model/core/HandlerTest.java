@@ -8,7 +8,7 @@
  */
 
 package org.jalasoft.moi.model.core;
-
+/*
 import org.jalasoft.moi.model.core.Handler;
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Parameters;
@@ -96,4 +96,4 @@ public class HandlerTest {
         params.setLanguage(Language.CPP);
         return params;
     }
-}
+}*/

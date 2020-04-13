@@ -1,34 +1,23 @@
 pipeline{
     agent any
     stages{
-        stage('Build'){ 
-            steps{
-                sh 'echo "Start building app"'
-                sh 'chmod +x gradlew'
-                sh './gradlew clean assemble'
-            }  
-        }
-        stage('Unit Test'){ 
-            steps{
-                sh 'echo "Running tests"'
-                sh 'java -version'
-                sh 'git --version'
-            }  
-        }
-        stage('Deploy'){
-            parallel {
-                stage('DeployToDevEnv'){
+        stage ('Deploy MOI'){
+            parallel{
+                stage('Build'){ 
                     steps{
-                        sh 'echo "Deploying to Dev environment"'
-                    }
+                        sh 'echo "Start building app"'
+                        sh 'chmod +x gradlew'
+                        sh './gradlew clean assemble'
+                    }  
                 }
-                stage('DeployToQaEnv'){
+                stage('Sonar Scan'){ 
                     steps{
-                        sh 'echo "Deploying to Qa environment"'
-                    }
+                        sh 'echo "Running SonarQbe"'
+                        sh './gradlew sonarqube'
+                    }  
                 }
             }
-        } 
+        }
         /* stage('Stage For test Post messages'){
             steps {
                 sh 'exit 1'

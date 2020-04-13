@@ -1,4 +1,5 @@
 package org.jalasoft.moi.model.interaction;
+/*
 
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Answer;
@@ -35,7 +36,7 @@ public class SingleInputTest {
     @BeforeAll
     static void initAll() {
         processCache = new ProcessCacheTest();
-        builder = new BuilderTest(processCache);
+        //builder = new BuilderTest(processCache);
         map = new HashMap<>();
     }
 
@@ -83,3 +84,4 @@ public class SingleInputTest {
         return processCache.getKeys().stream();
     }
 }
+*/

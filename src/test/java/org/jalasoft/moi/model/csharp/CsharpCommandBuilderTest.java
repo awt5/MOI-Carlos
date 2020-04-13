@@ -8,6 +8,7 @@
  */
 
 package org.jalasoft.moi.model.csharp;
+/*
 
 import org.jalasoft.moi.model.core.ICommandBuilder;
 import org.jalasoft.moi.model.core.Language;
@@ -42,3 +43,4 @@ public class CsharpCommandBuilderTest {
         return params;
     }
 }
+*/

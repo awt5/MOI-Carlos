@@ -1,4 +1,5 @@
 package org.jalasoft.moi.model.interaction;
+/*
 
 import org.jalasoft.moi.model.core.Executer;
 import org.jalasoft.moi.model.core.ICacheProvider;
@@ -15,7 +16,7 @@ public class BuilderTest {
 
     private ICacheProvider processCache;
 
-    public BuilderTest(ICacheProvider processCache) {
+    public BuilderTest(org.jalasoft.moi.model.interaction.ProcessCacheTest processCache) {
 
         this.processCache = processCache;
     }
@@ -33,3 +34,4 @@ public class BuilderTest {
         return executer.processAnswer(input);
     }
 }
+*/

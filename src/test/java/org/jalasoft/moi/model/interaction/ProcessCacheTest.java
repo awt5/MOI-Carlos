@@ -1,5 +1,5 @@
 package org.jalasoft.moi.model.interaction;
-
+/*
 import org.jalasoft.moi.model.core.ICacheProvider;
 
 import java.util.HashMap;
@@ -32,4 +32,4 @@ public class ProcessCacheTest implements ICacheProvider {
         Process process = processMap.remove(pid);
         process.destroy();
     }
-}
+}*/

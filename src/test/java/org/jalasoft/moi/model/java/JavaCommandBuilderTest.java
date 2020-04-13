@@ -8,6 +8,7 @@
  */
 
 package org.jalasoft.moi.model.java;
+/*
 
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Params;
@@ -39,3 +40,4 @@ public class JavaCommandBuilderTest {
         return params;
     }
 }
+*/

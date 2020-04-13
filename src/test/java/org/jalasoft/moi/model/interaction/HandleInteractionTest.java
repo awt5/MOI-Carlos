@@ -1,4 +1,5 @@
 package org.jalasoft.moi.model.interaction;
+/*
 
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Answer;
@@ -110,3 +111,4 @@ public class HandleInteractionTest {
         return processCache.getKeys().stream();
     }
 }
+*/
