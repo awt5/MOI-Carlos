@@ -17,6 +17,8 @@ import org.jalasoft.moi.model.exceptions.ProcessIDException;
 import org.jalasoft.moi.model.exceptions.ResultException;
 import org.jalasoft.moi.model.interaction.ProcessCacheTest;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +35,7 @@ public class HandlerTest {
         processCache = new ProcessCacheTest();
     }
 
-    /*@Test
+    @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
         String expectedResult = "#QuedateEnCasa";
@@ -44,8 +46,8 @@ public class HandlerTest {
         //when
         Result currentResult = runJavafile.runProgram(testParam);
         //then
-        assertEquals(expectedResult, currentResult.getValue());
-    }*/
+        Assertions.assertEquals(expectedResult, currentResult.getValue());
+    }
 
     /*@Test
     public void whenHandlerReceiveParamsBuildCommandAndExecuteThenRun() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
