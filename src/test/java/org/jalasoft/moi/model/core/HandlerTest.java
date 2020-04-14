@@ -33,20 +33,19 @@ public class HandlerTest {
         processCache = new ProcessCacheTest();
     }
 
-    @Test
+    /*@Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
         String expectedResult = "#QuedateEnCasa";
-        Result currentResult;
         Parameters testParam = new Params();
         testParam.setFilesPath(Paths.get("./temp/java/"));
         testParam.setLanguage(Language.JAVA);
-        Handler JH = new Handler(processCache);
+        Handler runJavafile = new Handler(processCache);
         //when
-        currentResult = JH.runProgram(testParam);
+        Result currentResult = runJavafile.runProgram(testParam);
         //then
         assertEquals(expectedResult, currentResult.getValue());
-    }
+    }*/
 
     /*@Test
     public void whenHandlerReceiveParamsBuildCommandAndExecuteThenRun() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
