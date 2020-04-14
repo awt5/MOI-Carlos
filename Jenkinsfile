@@ -13,7 +13,7 @@ pipeline{
                 stage('Sonar Scan'){ 
                     steps{
                         sh 'echo "Running SonarQube"'
-                        sh './gradlew sonarqube'
+                        //sh './gradlew sonarqube'
                     }  
                 }
             }
@@ -28,12 +28,7 @@ pipeline{
         always {
             mail to: "${EMAIL_ADMIN}", 
                  subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "The pipeline: \n\n
-                       ${currentBuild.fullDisplayName} \n\n
-                       ${currentBuild.currentResult} \n\n
-                       ${env.NODE_NAME} \n\n
-                       ${env.JOB_NAME} \n\n
-                       ${env.BUILD_URL} has been executed."
+                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. in the ${env.NODE_NAME} - ${env.JOB_NAME}. More details: ${env.BUILD_URL} ."
         }
         failure {
             mail to: "${EMAIL_TEAM}",
