@@ -27,8 +27,9 @@ import java.nio.file.Paths;
  */
 public enum Language {
 
-    PYTHON_32(new PythonCommandBuilder(Paths.get(Constant.ROOTPATH.getValue() + "/thirdparty/python/win" +
-            "/python32/Portable_Python_3.2.5.1/App/python.exe")), ".py"),
+    /*PYTHON_32(new PythonCommandBuilder(Paths.get(Constant.ROOTPATH.getValue() + "/thirdparty/python/win" +
+            "/python32/Portable_Python_3.2.5.1/App/python.exe")), ".py"),*/
+    PYTHON_32(new PythonCommandBuilder(), ".py"),
     CSHARP(new CsharpCommandBuilder(), ".cs"),
     JAVA(new JavaCommandBuilder(), ".java"),
     CPP(new CppCommandBuilder(), ".cpp");

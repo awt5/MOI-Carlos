@@ -1,5 +1,4 @@
 package org.jalasoft.moi.model.interaction;
-/*
 
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Answer;
@@ -25,7 +24,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-
+/*
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SingleInputTest {
 
@@ -36,7 +35,7 @@ public class SingleInputTest {
     @BeforeAll
     static void initAll() {
         processCache = new ProcessCacheTest();
-        //builder = new BuilderTest(processCache);
+        builder = new BuilderTest(processCache);
         map = new HashMap<>();
     }
 
@@ -51,7 +50,9 @@ public class SingleInputTest {
         params.setFilesPath(path);
 
         Result result = builder.createExecution(params);
+        System.out.println("RESULT VALUE: "+result.getValue());
         assertEquals(expected, result.getValue());
+
 
         map.put(result.getPid(), "100");
     }
@@ -83,5 +84,4 @@ public class SingleInputTest {
     static Stream<Long> pidProvider() {
         return processCache.getKeys().stream();
     }
-}
-*/
+}*/

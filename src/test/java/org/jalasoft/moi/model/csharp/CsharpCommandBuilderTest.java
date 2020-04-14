@@ -8,12 +8,8 @@
  */
 
 package org.jalasoft.moi.model.csharp;
-/*
 
-import org.jalasoft.moi.model.core.ICommandBuilder;
-import org.jalasoft.moi.model.core.Language;
-import org.jalasoft.moi.model.core.parameters.Params;
-import org.jalasoft.moi.model.core.parameters.Parameters;
+/*
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
@@ -42,5 +38,4 @@ public class CsharpCommandBuilderTest {
         params.setLanguage(Language.CSHARP);
         return params;
     }
-}
-*/
+}*/

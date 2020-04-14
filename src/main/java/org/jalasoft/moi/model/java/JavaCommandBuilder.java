@@ -27,15 +27,16 @@ public class JavaCommandBuilder implements ICommandBuilder {
     private static String folderPath;
 
     /**
-     * @param completePath contains the location of the directory or file
+     * @param path contains the location of the directory or file
      * @return String of the command builded with the path Params
      */
     @Override
-    public String buildCommand(Path completePath) {
-        folderPath = completePath.toString();
-        mainName = completePath.getFileName().toString().replace(".java", " ");
+    public String buildCommand(Path path) {
+        /*folderPath = completePath.toString();
+        mainName = completePath.getFileName().toString().replace(".java", " ");*/
         String allFiles = "/*.java";
         String fileMain = " MainClass";
-        return JAVA_COMPLILE + folderPath + allFiles + " && " + JAVA_CP + folderPath + fileMain;
+        /*return JAVA_COMPLILE + folderPath + allFiles + " && " + JAVA_CP + folderPath + fileMain;*/
+        return JAVA_COMPLILE + path + allFiles + " && " + JAVA_CP + path + fileMain;
     }
 }
