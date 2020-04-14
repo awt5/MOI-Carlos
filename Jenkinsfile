@@ -27,7 +27,7 @@ pipeline{
     post {
         always {
             mail to: "${EMAIL_ADMIN}", 
-                 subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
+                 subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.projectName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
         }
         failure {
