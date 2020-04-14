@@ -7,23 +7,17 @@ pipeline{
                     steps{
                         sh 'echo "Start building app"'
                         sh 'chmod +x gradlew'
-                        sh './gradlew clean assemble'
+                        sh './gradlew clean build'
                     }  
                 }
                 stage('Sonar Scan'){ 
                     steps{
-                        sh 'echo "Running SonarQbe"'
+                        sh 'echo "Running SonarQube"'
                         sh './gradlew sonarqube'
                     }  
                 }
             }
         }
-        /* stage('Stage For test Post messages'){
-            steps {
-                sh 'exit 1'
-            }
-
-        } */
     }
     environment {
         EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com, guillermitomc3@gmail.com'
@@ -34,7 +28,12 @@ pipeline{
         always {
             mail to: "${EMAIL_ADMIN}", 
                  subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "The pipeline ${env.BUILD_URL} has been executed."
+                 body: "The pipeline: \n\n
+                       ${currentBuild.fullDisplayName} \n\n
+                       ${currentBuild.currentResult} \n\n
+                       ${env.NODE_NAME} \n\n
+                       ${env.JOB_NAME} \n\n
+                       ${env.BUILD_URL} has been executed."
         }
         failure {
             mail to: "${EMAIL_TEAM}",
@@ -43,7 +42,7 @@ pipeline{
         }
         success {
             mail to: "${EMAIL_ME}", 
-                 subject: "${currentBuild.currentResult} Pipeline: ${env.JOB_NAME}${env.BUILD_NUMBER}",
+                 subject: "${currentBuild.currentResult} Pipeline: ${currentBuild.fullDisplayName}",
                  body: "The pipeline ${env.BUILD_URL} has been well executed"
         }
     }
