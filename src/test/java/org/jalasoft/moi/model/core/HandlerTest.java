@@ -8,9 +8,6 @@
  */
 
 package org.jalasoft.moi.model.core;
-/*
-import org.jalasoft.moi.model.core.Handler;
-import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Parameters;
 import org.jalasoft.moi.model.core.parameters.Params;
 import org.jalasoft.moi.model.core.parameters.Result;
@@ -39,10 +36,10 @@ public class HandlerTest {
     @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
-        String expectedResult = "Hey! estoy en el main1!/nhellooooooooo!!!!/nHey! estoy en el main2!";
+        String expectedResult = "#QuedateEnCasa";
         Result currentResult;
         Parameters testParam = new Params();
-        testParam.setFilesPath(Paths.get(".\\temp\\java\\test\\single.java"));
+        testParam.setFilesPath(Paths.get("./temp/java/"));
         testParam.setLanguage(Language.JAVA);
         Handler JH = new Handler(processCache);
         //when
@@ -51,13 +48,13 @@ public class HandlerTest {
         assertEquals(expectedResult, currentResult.getValue());
     }
 
-    @Test
+    /*@Test
     public void whenHandlerReceiveParamsBuildCommandAndExecuteThenRun() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
         String expectedResult = "Hello World1\nFile 2!!!\nHello World2";
         Parameters params = new Params();
         params.setLanguage(Language.CSHARP);
-        params.setFilesPath(Paths.get(".\\thirdparty\\csharp\\Local\\"));
+        params.setFilesPath(Paths.get("./thirdparty/csharp/Local/"));
         //when
         Handler csharpHandler = new Handler(processCache);
         Result currentResult = csharpHandler.runProgram(params);
@@ -68,7 +65,7 @@ public class HandlerTest {
     @Test
     public void cppHandlerTest() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
-        Parameters params = getParams(".\\temp\\cplusplus\\test\\single.cpp");
+        Parameters params = getParams("./temp/cplusplus/test/single.cpp");
         String expectedResult = "Hello, World\n";
         //when
         Handler cppHandler = new Handler(processCache);
@@ -95,5 +92,5 @@ public class HandlerTest {
         params.setFilesPath(Paths.get(paramTest));
         params.setLanguage(Language.CPP);
         return params;
-    }
-}*/
+    }*/
+}
