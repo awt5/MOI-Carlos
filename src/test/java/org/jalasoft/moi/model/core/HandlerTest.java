@@ -42,9 +42,9 @@ public class HandlerTest {
         Parameters testParam = new Params();
         testParam.setFilesPath(Paths.get("./temp/java/"));
         testParam.setLanguage(Language.JAVA);
-        Handler runJavafile = new Handler(processCache);
+        Handler runJavaHandler = new Handler(processCache);
         //when
-        Result currentResult = runJavafile.runProgram(testParam);
+        Result currentResult = runJavaHandler.runProgram(testParam);
         //then
         Assertions.assertEquals(expectedResult, currentResult.getValue());
     }
