@@ -9,7 +9,10 @@
 
 package org.jalasoft.moi.model.csharp;
 
-/*
+import org.jalasoft.moi.model.core.ICommandBuilder;
+import org.jalasoft.moi.model.core.Language;
+import org.jalasoft.moi.model.core.parameters.Parameters;
+import org.jalasoft.moi.model.core.parameters.Params;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
@@ -22,11 +25,11 @@ public class CsharpCommandBuilderTest {
     @Test
     public void cSharpCmdBuilderTest() {
         //given
-        Parameters codeParams = getParams(".\\temp\\cplusplus\\test");
+        Parameters codeParams = getParams("/home/carlos/test");
         ICommandBuilder cSharpCommBuilder = new CsharpCommandBuilder();
-        String expectedCommand = "cd .\\temp\\cplusplus\\test && " +
-                "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe -optimize -out:Output.exe *.cs && Output";
-        //when
+        String expectedCommand = "C:/Windows/Microsoft.NET/Framework64/v4.0.30319/csc.exe " +
+                "-optimize -out:/home/carlos/test/Output.exe /home/carlos/test/*.cs " +
+                "&& /home/carlos/test/Output";
         String currentCommand = cSharpCommBuilder.buildCommand(codeParams.getFilesPath());
         //then
         assertEquals(expectedCommand, currentCommand);
@@ -38,4 +41,4 @@ public class CsharpCommandBuilderTest {
         params.setLanguage(Language.CSHARP);
         return params;
     }
-}*/
+}

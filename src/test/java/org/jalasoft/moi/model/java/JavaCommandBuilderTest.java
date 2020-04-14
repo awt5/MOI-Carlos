@@ -8,7 +8,6 @@
  */
 
 package org.jalasoft.moi.model.java;
-/*
 
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Params;
@@ -24,9 +23,9 @@ public class JavaCommandBuilderTest {
     @Test
     public void givenParamsWhenBuildCommandThenReceiveTheExpectedComand() {
         //given
-        Parameters testParam = getParams(".\\temp\\java\\test");
+        Parameters testParam = getParams("/home/carlos/test");
         JavaCommandBuilder buildThisCommand = new JavaCommandBuilder();
-        String expectedCommand = "cd .\\temp\\java\\test && javac *.java && java MainClass";
+        String expectedCommand = "javac /home/carlos/test/*.java && java -cp /home/carlos/test MainClass";
         //when
         String currentCommand = buildThisCommand.buildCommand(testParam.getFilesPath());
         //then
@@ -40,4 +39,3 @@ public class JavaCommandBuilderTest {
         return params;
     }
 }
-*/

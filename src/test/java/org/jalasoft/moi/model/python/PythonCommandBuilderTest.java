@@ -8,10 +8,10 @@
  */
 
 package org.jalasoft.moi.model.python;
-/*
 
 import org.jalasoft.moi.model.core.ICommandBuilder;
 import org.jalasoft.moi.model.core.Language;
+import org.jalasoft.moi.model.core.parameters.Parameters;
 import org.jalasoft.moi.model.core.parameters.Params;
 import org.jalasoft.moi.model.utils.Constant;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,30 +23,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PythonCommandBuilderTest {
 
-    private static String directoryFile;
-    private static String command;
-
-    @BeforeAll
-    static void initAll() {
-        directoryFile = Constant.ROOTPATH.getValue() + "\\thirdparty\\python\\local\\";
-        String space = " ";
-        String compileall = "-m compileall";
-        String python = Constant.ROOTPATH.getValue() + "\\thirdparty\\python\\win\\python32\\Portable_Python_3.2.5.1\\App\\python.exe";
-        String concatenate = " && ";
-
-        command = python + space + compileall + space + directoryFile + "test1.py" + concatenate + python + space + directoryFile + "test1.py";
-    }
-
     @Test
     public void builderCommandCompileTest() {
-        Params params = new Params();
-        params.setFilesPath(Paths.get(directoryFile + "test1.py"));
+        //given
+        Parameters params = new Params();
+        params.setFilesPath(Paths.get("/home/carlos/test"));
         params.setLanguage(Language.PYTHON_32);
         ICommandBuilder pythonCommandBuilder = params.getLanguage().getCommandBuilder();
-
         String commandResult = pythonCommandBuilder.buildCommand(params.getFilesPath());
-
-        assertEquals(command, commandResult);
+        //when
+        String expectedCommand = "python -m compileall /home/carlos/test && python /home/carlos/test/MainClass.py";
+        //then
+        assertEquals(expectedCommand, commandResult);
     }
 }
-*/
