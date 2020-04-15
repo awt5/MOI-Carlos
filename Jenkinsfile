@@ -1,5 +1,10 @@
 pipeline{
     agent any
+    environment {
+        EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com, guillermitomc3@gmail.com'
+        EMAIL_ADMIN = 'kenshinmc23@gmail.com'
+        EMAIL_ME = 'guillermitomc3@gmail.com'
+    }
     stages{
         stage('Build'){ 
             steps{
@@ -13,21 +18,16 @@ pipeline{
                 sh 'echo "Running SonarQube"'
                 sh './gradlew sonarqube'
             }  
-        }    
-    }
-    post {
-        always {
-            sh 'touch build/test-results/*.xml'
-            junit 'build/test-results/*.xml'
         }
-        success {
-            archiveArtifacts artifacts: 'build/**/*.jar', fingerprint: true
+        post {
+            always {
+                sh 'touch build/test-results/*.xml'
+                junit 'build/test-results/*.xml'
+            }
+            success {
+                archiveArtifacts artifacts: 'build/**/*.jar', fingerprint: true
+            }    
         }
-    }
-    environment {
-        EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com, guillermitomc3@gmail.com'
-        EMAIL_ADMIN = 'kenshinmc23@gmail.com'
-        EMAIL_ME = 'guillermitomc3@gmail.com'
     }
     post {
         always {
