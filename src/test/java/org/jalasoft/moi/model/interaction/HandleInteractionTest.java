@@ -100,11 +100,11 @@ public class HandleInteractionTest {
                 arguments(
                         Constant.ROOTPATH.getValue() + "/temp/python/numbers",
                         Language.PYTHON_32
-                ),
+                )/*,
                 arguments(
                         Constant.ROOTPATH.getValue() + "/temp/java/numbers",
                         Language.JAVA
-                )
+                )*/
         );
     }
 
