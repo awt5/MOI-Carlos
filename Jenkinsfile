@@ -22,8 +22,8 @@ pipeline{
     }
     post {
         always {
-            sh 'touch build/test-results/*.xml'
-            junit 'build/test-results/*.xml'
+            sh 'touch build/test-results/test/*.xml'
+            junit 'build/test-results/test/*.xml'
             mail to: "${EMAIL_ADMIN}", 
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
@@ -34,7 +34,7 @@ pipeline{
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
         }
         success {
-            archiveArtifacts artifacts: 'build/**/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
             mail to: "${EMAIL_ME}", 
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
