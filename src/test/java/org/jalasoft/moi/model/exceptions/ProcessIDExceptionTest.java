@@ -21,7 +21,7 @@ public class ProcessIDExceptionTest {
         executer.execute(null);
     }
 
-   /* @Test(expected = ProcessIDException.class)
+    /*@Test(expected = ProcessIDException.class)
     public void throwsExceptionWhenCommandInvalidTest() throws CommandBuildException, ResultException, ProcessIDException {
         Executer executer = new Executer(new ProcessService());
         executer.execute("wrong");

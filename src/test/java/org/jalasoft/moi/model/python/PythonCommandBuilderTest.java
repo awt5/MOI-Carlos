@@ -32,7 +32,7 @@ public class PythonCommandBuilderTest {
         ICommandBuilder pythonCommandBuilder = params.getLanguage().getCommandBuilder();
         String commandResult = pythonCommandBuilder.buildCommand(params.getFilesPath());
         //when
-        String expectedCommand = "python -m compileall /home/carlos/test && python /home/carlos/test/MainClass.py";
+        String expectedCommand = "python3 -m compileall /home/carlos/test && python3 /home/carlos/test/MainClass.py";
         //then
         assertEquals(expectedCommand, commandResult);
     }

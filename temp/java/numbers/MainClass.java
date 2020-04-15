@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class MainClass {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Executing the program");
         System.out.println("Insert number1");
         System.out.print("> ");
         String number1 = scanner.nextLine();

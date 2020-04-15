@@ -98,7 +98,7 @@ public class HandleInteractionTest {
     private static Stream<Arguments> codeProvider() {
         return Stream.of(
                 arguments(
-                        "./temp/python/numbers",
+                        Constant.ROOTPATH.getValue() + "/temp/python/numbers",
                         Language.PYTHON_32
                 ),
                 arguments(
