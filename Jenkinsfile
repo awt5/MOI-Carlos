@@ -19,7 +19,20 @@ pipeline{
                 sh './gradlew sonarqube'
             }  
         }
+        stage('PublishReport') {
+            steps {
+                publishHTML (target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'build/reports/tests/test',
+                reportFiles: 'index.html',
+                reportName: "MOI-project test Report"
+                ])   
+            }
+        }
     }
+    
     post {
         always {
             sh 'touch build/test-results/test/*.xml'
