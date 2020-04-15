@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-/*
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
+/*@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SingleInputTest {
 
     private static ProcessCacheTest processCache;

@@ -26,10 +26,10 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+/*@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HandleInteractionTest {
 
-    /*private static BuilderTest builder;
+    private static BuilderTest builder;
     private static ProcessCacheTest processCache;
     private static HashMap<Long, List<String>> map;
 
@@ -108,5 +108,5 @@ public class HandleInteractionTest {
 
     static Stream<Long> pidProvider() {
         return processCache.getKeys().stream();
-    }*/
-}
+    }
+}*/

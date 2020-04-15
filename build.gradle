@@ -62,10 +62,9 @@ sonarqube {
 }
 jacocoTestReport {
     reports {
-        xml.enabled true
+        xml.enabled false
         csv.enabled false
         html.enabled true
-        xml.destination file("build/test-results/test/jacocoXML.xml")
     }
 }
 test.finalizedBy jacocoTestReport

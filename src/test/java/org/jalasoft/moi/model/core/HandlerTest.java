@@ -49,20 +49,20 @@ public class HandlerTest {
         Assertions.assertEquals(expectedResult, currentResult.getValue());
     }
 
-    /*@Test
+    @Test
     public void whenHandlerReceiveParamsBuildCommandAndExecuteThenRun() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
-        String expectedResult = "Hello World1\nFile 2!!!\nHello World2";
+        String expectedResult = "#QuedateEnCasa";
         Parameters params = new Params();
-        params.setLanguage(Language.CSHARP);
-        params.setFilesPath(Paths.get("./thirdparty/csharp/Local/"));
+        params.setLanguage(Language.PYTHON_32);
+        params.setFilesPath(Paths.get("./temp/python/"));
         //when
         Handler csharpHandler = new Handler(processCache);
         Result currentResult = csharpHandler.runProgram(params);
         //then
-        assertEquals(expectedResult, currentResult.getValue());
+        assert(currentResult.getValue().contains(expectedResult));
     }
-
+    /*
     @Test
     public void cppHandlerTest() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
@@ -74,13 +74,14 @@ public class HandlerTest {
         //then
         assertEquals(expectedResult, actualValue.getValue());
     }
+*/
 
     @Test
     public void cppHandlerTestEmptyPath() {
         //given
         Handler cppHandler = new Handler(processCache);
         Exception exception = assertThrows(ParametersException.class, () -> {
-            cppHandler.runProgram(getParams(""));
+            cppHandler.runProgram(getCppParams(""));
         });
         //when
         String expected = "Invalid or Null parameters gere generated.";
@@ -88,10 +89,10 @@ public class HandlerTest {
         assertEquals(expected, exception.getMessage());
     }
 
-    private Params getParams(String paramTest) {
+    private Params getCppParams(String paramTest) {
         Params params = new Params();
         params.setFilesPath(Paths.get(paramTest));
         params.setLanguage(Language.CPP);
         return params;
-    }*/
+    }
 }

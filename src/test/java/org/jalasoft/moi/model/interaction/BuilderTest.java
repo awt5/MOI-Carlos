@@ -13,7 +13,7 @@ import org.jalasoft.moi.model.exceptions.ResultException;
 
 public class BuilderTest {
 
-  /*  private ICacheProvider processCache;
+    private ICacheProvider processCache;
 
     public BuilderTest(org.jalasoft.moi.model.interaction.ProcessCacheTest processCache) {
 
@@ -31,5 +31,5 @@ public class BuilderTest {
     public Result buildResultWithInput(InputParameters input) throws InputParametersException, ResultException {
         Executer executer = new Executer(processCache);
         return executer.processAnswer(input);
-    }*/
+    }
 }
