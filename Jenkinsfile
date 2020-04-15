@@ -14,6 +14,15 @@ pipeline{
                 sh './gradlew sonarqube'
             }  
         }
+        post {
+                always {
+                    sh 'touch build/test-results/*.xml'
+                    junit 'build/test-results/*.xml'
+                }
+                success {
+                    archiveArtifacts artifacts: 'build/**/*.jar', fingerprint: true
+                }
+            }
     }
     environment {
         EMAIL_TEAM = 'juancitopinto236@gmail.com, kenshinmc23@gmail.com, guillermitomc3@gmail.com'
