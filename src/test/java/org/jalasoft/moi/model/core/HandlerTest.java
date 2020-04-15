@@ -17,14 +17,14 @@ import org.jalasoft.moi.model.exceptions.ProcessIDException;
 import org.jalasoft.moi.model.exceptions.ResultException;
 import org.jalasoft.moi.model.interaction.ProcessCacheTest;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class HandlerTest {
 

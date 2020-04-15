@@ -1,22 +1,18 @@
 pipeline{
     agent any
     stages{
-        stage ('Deploy MOI'){
-            parallel{
-                stage('Build'){ 
-                    steps{
-                        sh 'echo "Start building app"'
-                        sh 'chmod +x gradlew'
-                        sh './gradlew clean build'
-                    }  
-                }
-                stage('Sonar Scan'){ 
-                    steps{
-                        sh 'echo "Running SonarQube"'
-                        sh './gradlew sonarqube'
-                    }  
-                }
-            }
+        stage('Build'){ 
+            steps{
+                sh 'echo "Start building app"'
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build'
+            }  
+        }
+        stage('Sonar Scan'){ 
+            steps{
+                sh 'echo "Running SonarQube"'
+                sh './gradlew sonarqube'
+            }  
         }
     }
     environment {

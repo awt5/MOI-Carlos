@@ -12,6 +12,7 @@ package org.jalasoft.moi.model.java;
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Params;
 import org.jalasoft.moi.model.core.parameters.Parameters;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
