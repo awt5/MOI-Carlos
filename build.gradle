@@ -1,9 +1,9 @@
 plugins {
+    id 'jacoco'
     id 'java'
     id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "org.sonarqube" version "2.8"
-    id 'jacoco'
 }
 
 group 'org.jalasoft.moi'
@@ -58,11 +58,14 @@ sonarqube {
         property "sonar.organization", "awt5"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", "869d45ed9f1d130872b7e8994eca7e2f5f193034"
+        property "sonar.junit.reportsPath", "build/test-results"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 jacocoTestReport {
     reports {
-        xml.enabled false
+        xml.enabled true
         csv.enabled false
         html.enabled true
     }

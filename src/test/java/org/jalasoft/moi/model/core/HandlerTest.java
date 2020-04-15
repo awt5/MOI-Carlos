@@ -46,7 +46,7 @@ public class HandlerTest {
         //when
         Result currentResult = runJavaHandler.runProgram(testParam);
         //then
-        Assertions.assertEquals(expectedResult, currentResult.getValue());
+        assert(currentResult.getValue().contains(expectedResult));
     }
 
     @Test
