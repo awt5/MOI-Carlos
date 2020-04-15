@@ -37,16 +37,55 @@ public class UserServiceIntegrationTest {
     public void setUp() {
         User usertest = new User();
         usertest.setFirstName("juan");
+        usertest.setLastName("perez");
+        usertest.setUserName("juancito");
+        usertest.setPassword("123");
+        usertest.setEmail("juan@email.com");
+        usertest.setRol("user");
         repository.save(usertest);
 
         Mockito.when(repository.findByUserName(usertest.getFirstName()))
                 .thenReturn(usertest);
     }
     @Test
-    public void whenValidName_thenEmployeeShouldBeFound() {
+    public void whenValidName_thenUserShouldBeFound() {
         String name = "juan";
         User found = service.getUserByUserName(name);
-
         assertTrue(found.getFirstName().contains(name));
+    }
+    @Test
+    public void whenUserFound_thenVerifyHisLastName() {
+        String name = "juan";
+        String lastname = "perez";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getLastName().contains(lastname));
+    }
+    @Test
+    public void whenUserFound_thenVerifyHisUserName() {
+        String name = "juan";
+        String userName = "juancito";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getUserName().contains(userName));
+    }
+    @Test
+    public void whenUserFound_thenVerifyHisPassword() {
+        String name = "juan";
+        String pass = "123";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getPassword().contains(pass));
+    }
+    @Test
+    public void whenUserFound_thenVerifyHisEmail() {
+        String name = "juan";
+        String email = "juan@email.com";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getEmail().contains(email));
+    }
+    @Test
+    public void whenUserFound_thenVerifyHisRol() {
+        String name = "juan";
+        String rol = "user";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getRol().contains(rol));
     }
 }
