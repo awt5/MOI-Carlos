@@ -21,16 +21,16 @@ import java.nio.file.Path;
  */
 public class PythonCommandBuilder implements ICommandBuilder {
 
-    //private final Path pythonPath;
+    private final Path pythonPath;
 
     /**
      * Builds python commands.
      *
      * @param pythonPath the location for the python file
      */
-    /*public PythonCommandBuilder(Path pythonPath) {
+    public PythonCommandBuilder(Path pythonPath) {
         this.pythonPath = pythonPath;
-    }*/
+    }
 
     /**
      * Builds compilation and execution commands.
@@ -49,13 +49,10 @@ public class PythonCommandBuilder implements ICommandBuilder {
      * @param path the location of the directory or file
      * @return compilation command
      */
-    /*private String commandToCompile(Path path) {
-        return pythonPath + " -m compileall " + path;
-    }*/
-
     private String commandToCompile(Path path) {
-        return "python -m compileall " + path;
+        return "python3 -m compileall " + path;
     }
+
     /**
      * Builds execution command.
      *
@@ -64,13 +61,13 @@ public class PythonCommandBuilder implements ICommandBuilder {
      */
     private String commandToRun(Path path) {
         String fileMain = "/MainClass.py";
-        return "python " + path + fileMain;
+        return "python3 " + path + fileMain;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return "PythonCommandBuilder{ " +
                 pythonPath +
                 " }";
-    }*/
+    }
 }
