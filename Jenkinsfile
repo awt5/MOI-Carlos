@@ -15,7 +15,6 @@ pipeline{
                     sh 'touch build/test-results/test/*.xml'
                     junit 'build/test-results/test/*.xml'
                     publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
-                    sh 'touch build/reports/jacoco/test/html/*.html'
                     publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
                 }
                 success {
@@ -29,15 +28,12 @@ pipeline{
             }  
         }
         stage('Publish'){ 
-            if (env.BRANCH_NAME == 'develop'){
-                steps{
-                    sh './gradlew artifactoryPublish'
-                }   
-            }else {
-                steps{
-                    sh 'Publish stage available in Develop branch'
-                }
-            }     
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh './gradlew artifactoryPublish'
+            }         
         }
     }      
     post {
