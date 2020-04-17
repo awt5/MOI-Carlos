@@ -1,14 +1,8 @@
-package org.jalasoft.moi.model.services;
+package org.jalasoft.moi.controller.services;
 
-/*
 
-import org.jalasoft.moi.controller.repository.ProjectRepository;
 import org.jalasoft.moi.controller.repository.UserRepository;
-import org.jalasoft.moi.controller.services.ProjectService;
-import org.jalasoft.moi.controller.services.UserService;
-import org.jalasoft.moi.domain.Project;
 import org.jalasoft.moi.domain.User;
-import org.jalasoft.moi.model.core.Language;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,40 +13,44 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
-public class ProjectServiceIntegrationTest {
+public class UserServiceIntegrationTest {
 
     @TestConfiguration
-    static class ProjectServiceImplTestContextConfiguration {
+    static class UserServiceImplTestContextConfiguration {
         @Bean
-        public ProjectService projectService() {
-            return new ProjectService();
+        public UserService userService() {
+            return new UserService();
         }
     }
     @Autowired
-    private ProjectService service;
+    private UserService service;
     @MockBean
-    private ProjectRepository repository;
+    private UserRepository repository;
 
     @Before
     public void setUp() {
-        Project projectTest = new Project();
-        projectTest.setProjectName("test");
-        projectTest.setDescription("suma dos numeros");
-        projectTest.setLanguage(Language.JAVA);
-        projectTest.setPath("/moi/test/java");
-        repository.save(projectTest);
+        User usertest = new User();
+        usertest.setFirstName("juan");
+        usertest.setLastName("perez");
+        usertest.setUserName("juancito");
+        usertest.setPassword("123");
+        usertest.setEmail("juan@email.com");
+        usertest.setRol("user");
+        repository.save(usertest);
 
-        Mockito.when(repository.findByProjectName(projectTest.getProjectName()))
-                .thenReturn(projectTest);
+        Mockito.when(repository.findByUserName(usertest.getFirstName()))
+                .thenReturn(usertest);
     }
     @Test
-    public void whenValidName_thenProjectShouldBeFound() {
-        String name = "test";
-        Project found = service.getProjectByProjectName(name);
-        assertTrue(found.getProjectName().contains(name));
+    public void whenValidName_thenUserShouldBeFound() {
+        String name = "juan";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getFirstName().contains(name));
     }
     @Test
     public void whenUserFound_thenVerifyHisLastName() {
@@ -82,5 +80,11 @@ public class ProjectServiceIntegrationTest {
         User found = service.getUserByUserName(name);
         assertTrue(found.getEmail().contains(email));
     }
+    @Test
+    public void whenUserFound_thenVerifyHisRol() {
+        String name = "juan";
+        String rol = "user";
+        User found = service.getUserByUserName(name);
+        assertTrue(found.getRol().contains(rol));
+    }
 }
-*/

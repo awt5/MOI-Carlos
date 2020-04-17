@@ -16,6 +16,8 @@ import org.jalasoft.moi.model.exceptions.ParametersException;
 import org.jalasoft.moi.model.exceptions.ProcessIDException;
 import org.jalasoft.moi.model.exceptions.ResultException;
 import org.jalasoft.moi.model.interaction.ProcessCacheTest;
+
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +48,7 @@ public class HandlerTest {
         //when
         Result currentResult = runJavaHandler.runProgram(testParam);
         //then
-        assert(currentResult.getValue().contains(expectedResult));
+        assertTrue(currentResult.getValue().contains(expectedResult));
     }
 
     @Test
@@ -60,7 +62,7 @@ public class HandlerTest {
         Handler csharpHandler = new Handler(processCache);
         Result currentResult = csharpHandler.runProgram(params);
         //then
-        assert(currentResult.getValue().contains(expectedResult));
+        assertTrue(currentResult.getValue().contains(expectedResult));
     }
     /*
     @Test
