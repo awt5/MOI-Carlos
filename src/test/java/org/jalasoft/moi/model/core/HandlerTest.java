@@ -20,7 +20,6 @@ import org.jalasoft.moi.model.interaction.ProcessCacheTest;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -40,15 +39,17 @@ public class HandlerTest {
     @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
-        String expectedResult = "#QuedateEnCasa";
+        String expectedResult;
         Parameters testParam = new Params();
         testParam.setFilesPath(Paths.get("./temp/java/"));
         testParam.setLanguage(Language.JAVA);
         Handler runJavaHandler = new Handler(processCache);
         //when
-        Result currentResult = runJavaHandler.runProgram(testParam);
+        Result result = runJavaHandler.runProgram(testParam);
+        String currentResult = result.getValue();
+        expectedResult ="#QuedateEnCasa";
         //then
-        assertTrue(currentResult.getValue().contains(expectedResult));
+        assertTrue(currentResult.contains(expectedResult));
     }
 
     @Test
@@ -64,19 +65,6 @@ public class HandlerTest {
         //then
         assertTrue(currentResult.getValue().contains(expectedResult));
     }
-    /*
-    @Test
-    public void cppHandlerTest() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
-        //given
-        Parameters params = getParams("./temp/cplusplus/test/single.cpp");
-        String expectedResult = "Hello, World\n";
-        //when
-        Handler cppHandler = new Handler(processCache);
-        Result actualValue = cppHandler.runProgram(params);
-        //then
-        assertEquals(expectedResult, actualValue.getValue());
-    }
-*/
 
     @Test
     public void cppHandlerTestEmptyPath() {
