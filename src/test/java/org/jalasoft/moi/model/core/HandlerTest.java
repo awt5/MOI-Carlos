@@ -36,7 +36,7 @@ public class HandlerTest {
         processCache = new ProcessCacheTest();
     }
 
-    @Test
+    /*@Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
         //given
         String expectedResult;
@@ -50,7 +50,7 @@ public class HandlerTest {
         expectedResult ="#QuedateEnCasa";
         //then
         assertTrue(currentResult.contains(expectedResult));
-    }
+    }*/
 
     @Test
     public void whenHandlerReceiveParamsBuildCommandAndExecuteThenRun() throws ResultException, CommandBuildException, ParametersException, ProcessIDException {
