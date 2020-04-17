@@ -1,19 +1,20 @@
 plugins {
-    id 'jacoco'
     id 'java'
+    id 'jacoco'
+    id 'maven-publish'
     id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "org.sonarqube" version "2.8"
+    id 'com.jfrog.artifactory' version '4.9.8'
 }
 
-group 'org.jalasoft.moi'
-version '1.0-SNAPSHOT'
+group = 'org.jalasoft.moi'
+version = '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
 
 repositories {
     mavenCentral()
-    //add Artifactory
 }
 
 dependencies {
@@ -40,18 +41,10 @@ dependencies {
             'org.junit.vintage:junit-vintage-engine:5.4.2'
     )
 }
-
 test {
     useJUnitPlatform()
 }
 
-bootJar {
-    mainClassName = 'org.jalasoft.moi.Main'
-}
-
-bootRun {
-    main = 'org.jalasoft.moi.Main'
-}
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -70,4 +63,26 @@ sonarqube {
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            repoKey = 'MOI-snapshot-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
 
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
