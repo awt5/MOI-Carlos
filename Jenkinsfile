@@ -8,12 +8,7 @@ pipeline{
         stage('Build'){ 
             steps{
                 sh 'chmod +x gradlew'
-                sh './gradlew clean assemble'
-            }
-        }
-        stage('Test'){
-            steps{
-                sh './gradlew test'
+                sh './gradlew clean build'
             }
             post {
                 always{
