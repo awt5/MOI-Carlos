@@ -28,6 +28,17 @@ pipeline{
                 sh './gradlew sonarqube'
             }  
         }
+        stage('Publish'){ 
+            if (env.BRANCH_NAME == 'develop'){
+                steps{
+                    sh './gradlew artifactoryPublish'
+                }   
+            }else {
+                steps{
+                    sh 'Publish stage available in Develop branch'
+                }
+            }     
+        }
     }      
     post {
         always {
