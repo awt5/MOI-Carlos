@@ -22,12 +22,12 @@ pipeline{
                 }
             }  
         }
-        stage('CodeQuality'){ 
+        stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
             }  
         }
-        stage('DeployToDev'){
+        stage('Deploy To Dev'){
             steps{
                 sh 'docker-compose config'
                 sh 'docker-compose build'
