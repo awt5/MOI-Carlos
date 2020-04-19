@@ -27,6 +27,15 @@ pipeline{
                 sh './gradlew sonarqube'
             }  
         }
+        stage('Deploy To Dev'){
+            steps{
+                sh 'docker-compose config'
+                sh 'docker-compose build'
+            }
+            steps{
+                sh 'docker-compose up -d'
+            }
+        }
         stage('Publish'){ 
             when {
                 branch 'develop'
