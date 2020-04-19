@@ -135,6 +135,9 @@ hs_err_pid*
 .gradle
 build/
 
+### MOI-Project data ###
+tempdata/
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
