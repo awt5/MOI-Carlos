@@ -32,10 +32,14 @@ pipeline{
                 sh 'docker-compose config'
                 sh 'docker-compose build'
                 sh 'docker-compose up -d'
-            }
-           
+            }   
         }
-        stage('Publish'){ 
+        stage('Run Acceptance Tests'){
+            steps{
+                echo 'Running acceptance test'
+            }
+        }
+        stage('Publish To Artifactory'){ 
             when {
                 branch 'develop'
             }
