@@ -55,9 +55,11 @@ pipeline{
             // when {
             //     branch 'develop'
             // }
-            withDockerRegistry([ credentialsId: "carlosmc23", url: "https://index.docker.io/v1/" ]) {
-                sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
-                sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
+            steps{
+                withDockerRegistry([ credentialsId: "carlosmc23", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
+                    sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
+                }
             }
         }
         // stage('Promote To QA'){
