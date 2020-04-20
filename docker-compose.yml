@@ -15,7 +15,7 @@ services:
     image: moi-project
     container_name: moi-app-compose
     ports:
-      - "9090:9091"
+      - "9092:9091"
     volumes:
       - moi-project:/source/tempdata
     depends_on: 

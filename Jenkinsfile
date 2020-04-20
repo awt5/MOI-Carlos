@@ -3,6 +3,10 @@ pipeline{
     environment {
         EMAIL_TEAM = 'juancitopinto236@gmail.com, guillermitomc3@gmail.com'
         EMAIL_ADMIN = 'kenshinmc23@gmail.com'
+        PROJECT_NAME = 'moi-project'
+        PROJECT_VERS = '1.0'
+        USER_DOCKER_HUB = 'carlosmc23'
+
     }
     stages{
         stage('Build'){ 
@@ -45,7 +49,21 @@ pipeline{
             }
             steps{
                 sh './gradlew artifactoryPublish'
+                sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
+                sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
             }         
+        }
+        stage('Promote To QA'){
+            steps{
+                sh 'docker-compose -f docker-compose-qa.yml config'
+                sh 'docker-compose -f docker-compose-qa.yml build'
+                sh 'docker-compose -f docker-compose-qa.yml up -d'
+            }
+        }
+        stage('Automation Testing'){
+            steps{
+                echo 'Running automation test'
+            }
         }
     }      
     post {
