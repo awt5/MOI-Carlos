@@ -5,6 +5,7 @@ pipeline{
         EMAIL_ADMIN = 'kenshinmc23@gmail.com'
         PROJECT_NAME = 'moi-project'
         PROJECT_VERS = '1.0'
+        DOCKER_CREDS = 'docker-credis'
         USER_DOCKER_HUB = 'carlosmc23'
 
     }
@@ -49,9 +50,18 @@ pipeline{
             }
             steps{
                 sh './gradlew artifactoryPublish'
-                sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
-                sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
-            }         
+            }
+        }
+        stage('Publish To Docker Hub'){ 
+            when {
+                branch 'develop'
+            }
+            steps{
+                withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
+                    sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
+                }
+            }
         }
         stage('Promote To QA'){
             steps{
