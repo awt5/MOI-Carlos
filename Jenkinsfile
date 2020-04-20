@@ -47,6 +47,18 @@ pipeline{
                 sh './gradlew artifactoryPublish'
             }         
         }
+        stage('Promote To QA'){
+            steps{
+                sh 'docker-compose -f docker-compose-qa.yml config'
+                sh 'docker-compose -f docker-compose-qa.yml build'
+                sh 'docker-compose -f docker-compose-qa.yml up -d'
+            }
+        }
+        stage('Automation Testing'){
+            steps{
+                echo 'Running automation test'
+            }
+        }
     }      
     post {
         always {
