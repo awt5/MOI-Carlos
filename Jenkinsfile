@@ -57,7 +57,7 @@ pipeline{
             // }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-${env.BUILD_NUMBER}'
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
                     sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
                 }
             }
