@@ -79,23 +79,22 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-        stage('Cleaning WorkSpace'){
-            steps{
-                sh 'docker-compose down -v'
-                sh 'docker-compose -f docker-compose-qa.yml down -v'
-                deleteDir()
-                //cleanWs deleteDirs: true, notFailBuild: true
-                //cleanWs()
-                // dir("${workspace}@tmp") {
-                //     deleteDir()
-                // }
-                // dir("${workspace}@script") {
-                //     deleteDir()
-                // }
-            }
-        }
-        
-    }      
+        // stage('Cleaning WorkSpace'){
+        //     steps{
+        //         sh 'docker-compose down -v'
+        //         sh 'docker-compose -f docker-compose-qa.yml down -v'
+        //         deleteDir()
+        //         // dir("${workspace}@tmp") {
+        //         //     deleteDir()
+        //         // }
+        //         // dir("${workspace}@script") {
+        //         //     deleteDir()
+        //         // }
+        //         //cleanWs deleteDirs: true, notFailBuild: true
+        //         //cleanWs()
+        //     }
+        // }
+    }
     post {
         always {
             mail to: "${EMAIL_ADMIN}",
@@ -107,14 +106,14 @@ pipeline{
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
         }
-        // cleanup {
-        //     deleteDir()
-        //     dir("${workspace}@tmp") {
-        //         deleteDir()
-        //     }
-        //     dir("${workspace}@script") {
-        //         deleteDir()
-        //     }
-        // }
+        cleanup {
+            deleteDir()
+            dir("${workspace}@tmp") {
+                deleteDir()
+            }
+            dir("${workspace}@script") {
+                deleteDir()
+            }
+        }
     }
 }
