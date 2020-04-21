@@ -52,9 +52,9 @@ pipeline{
             }
         }
         stage('Publish To Docker Hub'){ 
-            // when {
-            //     branch 'develop'
-            // }
+            when {
+                branch 'develop'
+            }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
                     sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
