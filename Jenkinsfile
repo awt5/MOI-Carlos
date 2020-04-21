@@ -57,7 +57,7 @@ pipeline{
             }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-${env.BUILD_ID}'
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-${env.BUILD_NUMBER}'
                     sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
                 }
             }
@@ -85,12 +85,13 @@ pipeline{
         always {
             mail to: "${EMAIL_ADMIN}", 
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
-                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
+                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult}."
         }
         failure {
             mail to: "${EMAIL_TEAM}",
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
-                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been ${currentBuild.currentResult} executed. More details: ${env.BUILD_URL} ."
+                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}.\n"
+                 attachLog: true
         }
     }
 }
