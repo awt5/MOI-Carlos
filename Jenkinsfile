@@ -79,6 +79,7 @@ pipeline{
                 echo 'Running automation test'
             }
         }
+
         
     }      
     post {
@@ -102,5 +103,6 @@ pipeline{
             // dir("${workspace}@script") {
             //     deleteDir()
             // }
+        }
     }
 }
