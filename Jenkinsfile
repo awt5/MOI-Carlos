@@ -88,7 +88,7 @@ pipeline{
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult}."
         }
         failure {
-            mail to: "${EMAIL_TEAM}",
+            emailext to: "${EMAIL_TEAM}",
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}.",
                  attachLog: true
