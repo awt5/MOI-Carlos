@@ -110,7 +110,7 @@ pipeline{
         cleanup {
             sh 'docker-compose down -v'
             sh 'docker-compose -f docker-compose-qa.yml down -v'
-            sh 'docker rmi $(docker images -aq -f'dangling=true')'
+            sh 'docker rmi $(docker images -aq -f dangling=true)'
             // deleteDir()
             // dir("${workspace}@tmp") {
             //     deleteDir()
