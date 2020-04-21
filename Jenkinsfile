@@ -4,7 +4,6 @@ pipeline{
         EMAIL_TEAM = 'juancitopinto236@gmail.com, guillermitomc3@gmail.com'
         EMAIL_ADMIN = 'kenshinmc23@gmail.com'
         PROJECT_NAME = 'moi-project'
-        PROJECT_VERS = '1.0'
         DOCKER_CREDS = 'docker-credis'
         USER_DOCKER_HUB = 'carlosmc23'
 
@@ -58,12 +57,15 @@ pipeline{
             }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:${PROJECT_VERS}'
+                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-${env.BUILD_ID}'
                     sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
                 }
             }
         }
         stage('Promote To QA'){
+            when {
+                branch 'develop'
+            }
             steps{
                 sh 'docker-compose -f docker-compose-qa.yml config'
                 sh 'docker-compose -f docker-compose-qa.yml build'
@@ -71,6 +73,9 @@ pipeline{
             }
         }
         stage('Automation Testing'){
+            when {
+                branch 'develop'
+            }
             steps{
                 echo 'Running automation test'
             }
