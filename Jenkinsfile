@@ -83,13 +83,14 @@ pipeline{
         //     steps{
         //         sh 'docker-compose down -v'
         //         sh 'docker-compose -f docker-compose-qa.yml down -v'
+        //         sh 'docker rmi $(docker images -aq -f'dangling=true')'
         //         deleteDir()
-        //         // dir("${workspace}@tmp") {
-        //         //     deleteDir()
-        //         // }
-        //         // dir("${workspace}@script") {
-        //         //     deleteDir()
-        //         // }
+        //         dir("${workspace}@tmp") {
+        //             deleteDir()
+        //         }
+        //         dir("${workspace}@script") {
+        //             deleteDir()
+        //         }
         //         //cleanWs deleteDirs: true, notFailBuild: true
         //         //cleanWs()
         //     }
@@ -109,13 +110,14 @@ pipeline{
         cleanup {
             sh 'docker-compose down -v'
             sh 'docker-compose -f docker-compose-qa.yml down -v'
-            deleteDir()
-            dir("${workspace}@tmp") {
-                deleteDir()
-            }
-            dir("${workspace}@script") {
-                deleteDir()
-            }
+            sh 'docker rmi $(docker images -aq -f'dangling=true')'
+            // deleteDir()
+            // dir("${workspace}@tmp") {
+            //     deleteDir()
+            // }
+            // dir("${workspace}@script") {
+            //     deleteDir()
+            // }
         }
     }
 }
