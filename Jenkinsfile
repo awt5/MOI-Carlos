@@ -79,7 +79,19 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-
+        stage('Cleaning WorkSpace'){
+            steps{
+                sh 'docker-compose down -v'
+                sh 'docker-compose -f docker-compose-qa.yml down -v'
+                deleteDir()
+                dir("${workspace}@tmp") {
+                    deleteDir()
+                }
+                dir("${workspace}@script") {
+                    deleteDir()
+                }
+            }
+        }
         
     }      
     post {
@@ -92,17 +104,6 @@ pipeline{
             mail to: "${EMAIL_TEAM}",
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
-        }
-        cleanup {
-            sh 'docker-compose down -v'
-            cleanWs()
-            // deleteDir()
-            // dir("${workspace}@tmp") {
-            //     deleteDir()
-            // }
-            // dir("${workspace}@script") {
-            //     deleteDir()
-            // }
         }
     }
 }
