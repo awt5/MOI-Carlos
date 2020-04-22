@@ -92,7 +92,7 @@ pipeline{
             environment {
                 APP_PORT=9094
                 DB_PORT=3308
-                STG_HOME='/workspace/staging'
+                STG_HOME='/deployments/staging'
             }
             // when {
             //     branch 'develop'
@@ -108,6 +108,7 @@ pipeline{
         stage('Cleaning WorkSpace'){
             environment {
                 APP_PORT=9093
+                DB_PORT=3307
             }
             steps{
                 sh 'docker-compose down -v'
