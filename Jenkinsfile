@@ -49,6 +49,12 @@ pipeline{
             steps{
                 sh './gradlew artifactoryPublish'
             }
+            // when {
+            //     branch 'master'
+            // }
+            // steps{
+            //     sh './gradlew -Dartifactory_repokey=libs_release_local artifactoryPublish'
+            // }
         }
         stage('Publish To Docker Hub'){ 
             when {
@@ -62,9 +68,9 @@ pipeline{
             }
         }
         stage('Promote To QA'){
-            when {
-                branch 'develop'
-            }
+            // when {
+            //     branch 'develop'
+            // }
             steps{
                 sh 'docker-compose -f docker-compose-qa.yml config'
                 sh 'docker-compose -f docker-compose-qa.yml build'
@@ -79,6 +85,18 @@ pipeline{
                 echo 'Running automation test'
             }
         }
+        // stage('Deploy To Staging'){
+        //     environment {
+        //         STG_HOME='/deployments/staging'
+        //     }
+        //     steps{
+        //         sh 'echo $STG_HOME'
+        //         sh 'echo clean docker-compose down, delete'
+        //         sh 'echo copy the install directory docker image, docker-compose-qa.yalm'
+        //         sh 'echo deploying to QA'
+        //         sh 'echo deploy docker-compose-qa.yaml'
+        //     }
+        // }
         stage('Cleaning WorkSpace'){
             steps{
                 sh 'docker-compose down -v'
@@ -88,11 +106,6 @@ pipeline{
                 // dir("${workspace}@tmp") {
                 //     deleteDir()
                 // }
-                // dir("${workspace}@script") {
-                //     deleteDir()
-                // }
-                //cleanWs deleteDirs: true, notFailBuild: true
-                //cleanWs()
             }
         }
     }
@@ -107,18 +120,6 @@ pipeline{
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
         }
-        // cleanup {
-        //     sh 'docker-compose down -v'
-        //     sh 'docker-compose -f docker-compose-qa.yml down -v'
-        //     sh 'docker rmi $(docker images -aq -f dangling=true)'
-        //     deleteDir()
-        //     dir("${workspace}@tmp") {
-        //         deleteDir()
-        //     }
-        //     dir("${workspace}@script") {
-        //         deleteDir()
-        //     }
-        // }
     }
 }
 
