@@ -4,27 +4,40 @@ pipeline{
         EMAIL_TEAM = 'juancitopinto236@gmail.com, guillermitomc3@gmail.com'
         EMAIL_ADMIN = 'kenshinmc23@gmail.com'
         PROJECT_NAME = 'moi-project'
-        DOCKER_CREDS = 'docker-credis'
-        USER_DOCKER_HUB = 'carlosmc23'
+        PROJECT_VER = '1.0'
+        DOCKER_CREDIS = 'docker-credis'
+        DOCKER_USER = 'carlosmc23'
     }
     stages{
-        stage('Build'){ 
-            steps{
-                sh 'chmod +x gradlew'
-                sh './gradlew clean build'
+        stage('Build'){
+            parallel{
+                stage('Snapshot'){ 
+                    steps{
+                        sh 'chmod +x gradlew'
+                        sh './gradlew clean build'
+                    }
+                }
+                stage('Release'){
+                    when {
+                        branch 'master'
+                    }
+                    steps{
+                        sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
+                    }
+                }
             }
-            post {
-                always{
-                    sh 'touch build/test-results/test/*.xml'
-                    junit 'build/test-results/test/*.xml'
-                    publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
-                    publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
-                }
-                success {
-                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                }
-            }  
         }
+        post {
+            always{
+                sh 'touch build/test-results/test/*.xml'
+                junit 'build/test-results/test/*.xml'
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
+                }
+            success {
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                }
+        }  
         stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
@@ -60,7 +73,7 @@ pipeline{
                         branch 'master'
                     }
                     steps{
-                        sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
+                        sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
                     }
                 }
             }
@@ -70,9 +83,9 @@ pipeline{
                 branch 'develop'
             }
             steps{
-                withDockerRegistry([ credentialsId: "${DOCKER_CREDS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${USER_DOCKER_HUB}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
-                    sh 'docker push ${USER_DOCKER_HUB}/${PROJECT_NAME}'
+                withDockerRegistry([ credentialsId: "${DOCKER_CREDIS}", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
+                    sh 'docker push ${DOCKER_USER}/${PROJECT_NAME}'
                 }
             }
         }
@@ -89,7 +102,6 @@ pipeline{
                     steps{
                         sh 'cp docker-compose.yml $QA_HOME'
                         sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $QA_HOME/docker-compose.yml config'
                         sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
                     }
                 }
@@ -104,7 +116,6 @@ pipeline{
                     steps{
                         sh 'cp docker-compose.yml $STG_HOME'
                         sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
                         sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
                     }
                 }
