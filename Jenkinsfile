@@ -76,7 +76,6 @@ pipeline{
             // }
             steps{
                 sh 'docker-compose -f docker-compose-qa.yml config'
-                //sh 'docker-compose -f docker-compose-qa.yml build'
                 sh 'docker-compose -f docker-compose-qa.yml up -d'
             }
         }
@@ -88,19 +87,22 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-        // stage('Deploy To Staging'){
-        //     environment {
-        //         APP_PORT=9094
-        //         STG_HOME='/deployments/staging'
-        //     }
-        //     steps{
-        //         sh 'mkdir $STG_HOME'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
-        //         sh 'cp docker-compose-qa.yml $STG_HOME'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
-        //     }
-        // }
+        stage('Deploy To Staging'){
+            environment {
+                APP_PORT=9094
+                STG_HOME='/deployments/staging'
+            }
+            // when {
+            //     branch 'develop'
+            // }
+            steps{
+                sh 'mkdir $STG_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
+                sh 'cp docker-compose-qa.yml $STG_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
+                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
+            }
+        }
         stage('Cleaning WorkSpace'){
             environment {
                 APP_PORT=9093
