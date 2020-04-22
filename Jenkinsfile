@@ -70,6 +70,7 @@ pipeline{
         stage('Promote To QA'){
             environment {
                 APP_PORT=9093
+                DB_PORT=3307
             }
             // when {
             //     branch 'develop'
@@ -90,7 +91,8 @@ pipeline{
         stage('Deploy To Staging'){
             environment {
                 APP_PORT=9094
-                STG_HOME='/deployments/staging'
+                DB_PORT=3308
+                STG_HOME='/workspace/staging'
             }
             // when {
             //     branch 'develop'
