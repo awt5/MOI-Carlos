@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  database-qa:
+  moi-database:
     image: mysql:5.7
     container_name: moi-db-compose-qa
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
@@ -11,17 +11,14 @@ services:
     volumes: 
       - moi-database-qa:/var/lib/mysql
   moi-app-qa:
-    build:
-      context: .
-      dockerfile: Dockerfile-qa
-    image: moi-project-qa
+    image: moi-project
     container_name: moi-app-compose-qa
     ports:
       - "9093:9091"
     volumes:
       - moi-project-qa:/source/tempdata
     depends_on: 
-      - database-qa
+      - moi-database
     restart: on-failure
 networks:
   default:
