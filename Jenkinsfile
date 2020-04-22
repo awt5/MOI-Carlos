@@ -31,6 +31,9 @@ pipeline{
             }  
         }
         stage('Deploy To Dev'){
+            environment {
+                APP_PORT=9092
+            }
             steps{
                 sh 'docker-compose config'
                 sh 'docker-compose build'
@@ -70,14 +73,17 @@ pipeline{
         stage('Promote To QA'){
             environment {
                 APP_PORT=9093
-                DB_PORT=3307
+                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
             }
             // when {
             //     branch 'develop'
             // }
             steps{
-                sh 'docker-compose -f docker-compose-qa.yml config'
-                sh 'docker-compose -f docker-compose-qa.yml up -d'
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'cd $QA_HOME'
+                sh 'docker-compose down -v'
+                sh 'docker-compose config'
+                sh 'docker-compose up -d'
             }
         }
         stage('Automation Testing'){
@@ -88,30 +94,27 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-        stage('Deploy To Staging'){
-            environment {
-                APP_PORT=9094
-                DB_PORT=3308
-                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
-            }
-            // when {
-            //     branch 'develop'
-            // }
-            steps{
-                sh 'cp docker-compose-qa.yml $STG_HOME'
-                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
-                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
-                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
-            }
-        }
+        // stage('Deploy To Staging'){
+        //     environment {
+        //         APP_PORT=9094
+        //         STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+        //     }
+        //     // when {
+        //     //     branch 'develop'
+        //     // }
+        //     steps{
+        //         sh 'cp docker-compose-qa.yml $STG_HOME'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
+        //     }
+        // }
         stage('Cleaning WorkSpace'){
             environment {
-                APP_PORT=9093
-                DB_PORT=3307
+                APP_PORT=9092
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker-compose -f docker-compose-qa.yml down -v'
                 sh 'docker rmi $(docker images -aq -f dangling=true)'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
