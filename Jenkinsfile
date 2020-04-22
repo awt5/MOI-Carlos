@@ -26,8 +26,7 @@ pipeline{
                     }
                 }
             }
-        }
-        post {
+            post {
             always{
                 sh 'touch build/test-results/test/*.xml'
                 junit 'build/test-results/test/*.xml'
@@ -37,7 +36,9 @@ pipeline{
             success {
                 archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
-        }  
+            }  
+        }
+        
         stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
