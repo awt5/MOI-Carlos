@@ -20,9 +20,7 @@ services:
     depends_on: 
       - moi-database
     restart: on-failure
-networks:
-  default:
-    name: promote-qa-network
+
 volumes:
     moi-database-qa:
         name: moi-database-qa
