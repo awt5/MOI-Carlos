@@ -93,21 +93,21 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-        // stage('Deploy To Staging'){
-        //     environment {
-        //         APP_PORT=9094
-        //         STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
-        //     }
-        //     // when {
-        //     //     branch 'develop'
-        //     // }
-        //     steps{
-        //         sh 'cp docker-compose-qa.yml $STG_HOME'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
-        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
-        //     }
-        // }
+        stage('Deploy To Staging'){
+            environment {
+                APP_PORT=9094
+                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+            }
+            // when {
+            //     branch 'master'
+            // }
+            steps{
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
+            }
+        }
         // stage('Cleaning WorkSpace'){
         //     environment {
         //         APP_PORT=9092
