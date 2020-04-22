@@ -92,15 +92,14 @@ pipeline{
             environment {
                 APP_PORT=9094
                 DB_PORT=3308
-                STG_HOME='/deployments/staging'
+                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
             }
             // when {
             //     branch 'develop'
             // }
             steps{
-                sh 'mkdir -p $STG_HOME'
-                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
                 sh 'cp docker-compose-qa.yml $STG_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
                 sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
                 sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
             }
