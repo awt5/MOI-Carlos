@@ -9,22 +9,29 @@ pipeline{
         DOCKER_USER = 'carlosmc23'
     }
     stages{
-        stage('Build'){
-            parallel{
-                stage('Snapshot'){ 
-                    steps{
-                        sh 'chmod +x gradlew'
-                        sh './gradlew clean build'
-                    }
+        stage('Build Snapshot'){ 
+            steps{
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build'
+            } 
+            post {
+            always{
+                sh 'touch build/test-results/test/*.xml'
+                junit 'build/test-results/test/*.xml'
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
                 }
-                stage('Release'){
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
-                    }
+            success {
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
+            }  
+        }
+        stage('Build Release'){
+            when {
+                branch 'master'
+            }
+            steps{
+                sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
             }
             post {
             always{
@@ -127,7 +134,8 @@ pipeline{
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker rmi $(docker images -aq -f dangling=true)'
+                //sh 'docker rmi $(docker images -aq -f dangling=true)'
+                sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
                 //     deleteDir()
