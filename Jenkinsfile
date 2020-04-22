@@ -79,11 +79,10 @@ pipeline{
             //     branch 'develop'
             // }
             steps{
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
                 sh 'cp docker-compose.yml $QA_HOME'
-                sh 'cd $QA_HOME'
-                sh 'docker-compose down -v'
-                sh 'docker-compose config'
-                sh 'docker-compose up -d'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml config'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
             }
         }
         stage('Automation Testing'){
