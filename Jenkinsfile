@@ -38,7 +38,6 @@ pipeline{
                 }
             }  
         }
-        
         stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
@@ -59,24 +58,20 @@ pipeline{
                 echo 'Running acceptance test'
             }
         }
-        stage('Publish to Artifactory'){
-            parallel{
-                stage('SnapShot Libs'){ 
-                    when {
-                        branch 'develop'
-                    }
-                    steps{
-                        sh './gradlew artifactoryPublish'
-                    }
-                }
-                stage('Release Libs'){
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
-                    }
-                }
+        stage('Publish Artifactory SnapshotLibs'){ 
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh './gradlew artifactoryPublish'
+            }
+        }
+        stage('Publish Artifactory ReleaseLibs'){
+            when {
+                branch 'master'
+            }
+            steps{
+                sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
             }
         }
         stage('Publish To Docker Hub'){ 
@@ -90,36 +85,32 @@ pipeline{
                 }
             }
         }
-        stage('Deployment'){
-            parallel{
-                stage('Promote To QA'){
-                    environment {
-                        APP_PORT=9093
-                        QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
-                    }
-                    when {
-                        branch 'develop'
-                    }
-                    steps{
-                        sh 'cp docker-compose.yml $QA_HOME'
-                        sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
-                    }
-                }
-                stage('Deploy To Staging'){
-                    environment {
-                        APP_PORT=9094
-                        STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
-                    }
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh 'cp docker-compose.yml $STG_HOME'
-                        sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
-                    }
-                }
+        stage('Promote To QA'){
+            environment {
+                APP_PORT=9093
+                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
+            }
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
+            }
+        }
+        stage('Deploy To Staging'){
+            environment {
+                APP_PORT=9094
+                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+            }
+            when {
+                branch 'master'
+            }
+            steps{
+                sh 'cp docker-compose.yml $STG_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
             }
         }
         stage('Automation Testing'){
