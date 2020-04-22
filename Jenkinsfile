@@ -96,7 +96,7 @@ pipeline{
             //     branch 'develop'
             // }
             steps{
-                sh 'mkdir $STG_HOME'
+                sh 'mkdir -p $STG_HOME'
                 sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
                 sh 'cp docker-compose-qa.yml $STG_HOME'
                 sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
