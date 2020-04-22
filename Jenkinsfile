@@ -9,22 +9,29 @@ pipeline{
         DOCKER_USER = 'carlosmc23'
     }
     stages{
-        stage('Build'){
-            parallel{
-                stage('Snapshot'){ 
-                    steps{
-                        sh 'chmod +x gradlew'
-                        sh './gradlew clean build'
-                    }
+        stage('Build Snapshot'){ 
+            steps{
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build'
+            } 
+            post {
+            always{
+                sh 'touch build/test-results/test/*.xml'
+                junit 'build/test-results/test/*.xml'
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
+                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
                 }
-                stage('Release'){
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
-                    }
+            success {
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
+            }  
+        }
+        stage('Build Release'){
+            when {
+                branch 'master'
+            }
+            steps{
+                sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
             }
             post {
             always{
@@ -38,7 +45,6 @@ pipeline{
                 }
             }  
         }
-        
         stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
@@ -59,24 +65,20 @@ pipeline{
                 echo 'Running acceptance test'
             }
         }
-        stage('Publish to Artifactory'){
-            parallel{
-                stage('SnapShot Libs'){ 
-                    when {
-                        branch 'develop'
-                    }
-                    steps{
-                        sh './gradlew artifactoryPublish'
-                    }
-                }
-                stage('Release Libs'){
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
-                    }
-                }
+        stage('Publish Artifactory SnapshotLibs'){ 
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh './gradlew artifactoryPublish'
+            }
+        }
+        stage('Publish Artifactory ReleaseLibs'){
+            when {
+                branch 'master'
+            }
+            steps{
+                sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
             }
         }
         stage('Publish To Docker Hub'){ 
@@ -90,36 +92,32 @@ pipeline{
                 }
             }
         }
-        stage('Deployment'){
-            parallel{
-                stage('Promote To QA'){
-                    environment {
-                        APP_PORT=9093
-                        QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
-                    }
-                    when {
-                        branch 'develop'
-                    }
-                    steps{
-                        sh 'cp docker-compose.yml $QA_HOME'
-                        sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
-                    }
-                }
-                stage('Deploy To Staging'){
-                    environment {
-                        APP_PORT=9094
-                        STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
-                    }
-                    when {
-                        branch 'master'
-                    }
-                    steps{
-                        sh 'cp docker-compose.yml $STG_HOME'
-                        sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
-                        sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
-                    }
-                }
+        stage('Promote To QA'){
+            environment {
+                APP_PORT=9093
+                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
+            }
+            when {
+                branch 'develop'
+            }
+            steps{
+                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
+            }
+        }
+        stage('Deploy To Staging'){
+            environment {
+                APP_PORT=9094
+                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+            }
+            when {
+                branch 'master'
+            }
+            steps{
+                sh 'cp docker-compose.yml $STG_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
             }
         }
         stage('Automation Testing'){
@@ -136,7 +134,8 @@ pipeline{
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker rmi $(docker images -aq -f dangling=true)'
+                //sh 'docker rmi $(docker images -aq -f dangling=true)'
+                sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
                 //     deleteDir()
