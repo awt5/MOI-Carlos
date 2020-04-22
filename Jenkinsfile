@@ -79,8 +79,8 @@ pipeline{
             //     branch 'develop'
             // }
             steps{
-                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
                 sh 'cp docker-compose.yml $QA_HOME'
+                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
                 sh 'docker-compose -f $QA_HOME/docker-compose.yml config'
                 sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
             }
@@ -102,8 +102,8 @@ pipeline{
             //     branch 'master'
             // }
             steps{
-                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
                 sh 'cp docker-compose.yml $QA_HOME'
+                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
             }
