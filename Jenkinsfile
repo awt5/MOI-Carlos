@@ -73,7 +73,7 @@ pipeline{
             // }
             steps{
                 sh 'docker-compose -f docker-compose-qa.yml config'
-                sh 'docker-compose -f docker-compose-qa.yml build'
+                //sh 'docker-compose -f docker-compose-qa.yml build'
                 sh 'docker-compose -f docker-compose-qa.yml up -d'
             }
         }
@@ -93,6 +93,8 @@ pipeline{
         //         sh 'echo $STG_HOME'
         //         sh 'echo clean docker-compose down, delete'
         //         sh 'echo copy the install directory docker image, docker-compose-qa.yalm'
+        //         sh 'docker-compose config'
+        //         sh 'docker-compose up -d 9094 3308'
         //         sh 'echo deploying to QA'
         //         sh 'echo deploy docker-compose-qa.yaml'
         //     }
