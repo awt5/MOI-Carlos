@@ -102,7 +102,7 @@ pipeline{
             //     branch 'master'
             // }
             steps{
-                sh 'cp docker-compose.yml $QA_HOME'
+                sh 'cp docker-compose.yml $STG_HOME'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
