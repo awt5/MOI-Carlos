@@ -109,19 +109,19 @@ pipeline{
         //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
         //     }
         // }
-        stage('Cleaning WorkSpace'){
-            environment {
-                APP_PORT=9092
-            }
-            steps{
-                sh 'docker-compose down -v'
-                sh 'docker rmi $(docker images -aq -f dangling=true)'
-                // deleteDir()
-                // dir("${workspace}@tmp") {
-                //     deleteDir()
-                // }
-            }
-        }
+        // stage('Cleaning WorkSpace'){
+        //     environment {
+        //         APP_PORT=9092
+        //     }
+        //     steps{
+        //         sh 'docker-compose down -v'
+        //         sh 'docker rmi $(docker images -aq -f dangling=true)'
+        //         // deleteDir()
+        //         // dir("${workspace}@tmp") {
+        //         //     deleteDir()
+        //         // }
+        //     }
+        // }
     }
     post {
         always {
