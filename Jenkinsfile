@@ -45,19 +45,25 @@ pipeline{
                 echo 'Running acceptance test'
             }
         }
-        stage('Publish To Artifactory'){ 
-            when {
-                branch 'develop'
+        stage('Publish to Artifactory'){
+            parallel{
+                stage('SnapShot Libs'){ 
+                    when {
+                        branch 'develop'
+                    }
+                    steps{
+                        sh './gradlew artifactoryPublish'
+                    }
+                }
+                stage('Release Libs'){
+                    when {
+                        branch 'master'
+                    }
+                    steps{
+                        sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
+                    }
+                }
             }
-            steps{
-                sh './gradlew artifactoryPublish'
-            }
-            // when {
-            //     branch 'master'
-            // }
-            // steps{
-            //     sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
-            // }
         }
         stage('Publish To Docker Hub'){ 
             when {
@@ -70,19 +76,38 @@ pipeline{
                 }
             }
         }
-        stage('Promote To QA'){
-            environment {
-                APP_PORT=9093
-                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
-            }
-            // when {
-            //     branch 'develop'
-            // }
-            steps{
-                sh 'cp docker-compose.yml $QA_HOME'
-                sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
-                sh 'docker-compose -f $QA_HOME/docker-compose.yml config'
-                sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
+        stage('Deployment'){
+            parallel{
+                stage('Promote To QA'){
+                    environment {
+                        APP_PORT=9093
+                        QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
+                    }
+                    when {
+                        branch 'develop'
+                    }
+                    steps{
+                        sh 'cp docker-compose.yml $QA_HOME'
+                        sh 'docker-compose -f $QA_HOME/docker-compose.yml down -v'
+                        sh 'docker-compose -f $QA_HOME/docker-compose.yml config'
+                        sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
+                    }
+                }
+                stage('Deploy To Staging'){
+                    environment {
+                        APP_PORT=9094
+                        STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+                    }
+                    when {
+                        branch 'master'
+                    }
+                    steps{
+                        sh 'cp docker-compose.yml $STG_HOME'
+                        sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
+                        sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
+                        sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
+                    }
+                }
             }
         }
         stage('Automation Testing'){
@@ -93,34 +118,19 @@ pipeline{
                 echo 'Running automation test'
             }
         }
-        stage('Deploy To Staging'){
+        stage('Cleaning WorkSpace'){
             environment {
-                APP_PORT=9094
-                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+                APP_PORT=9092
             }
-            // when {
-            //     branch 'master'
-            // }
             steps{
-                sh 'cp docker-compose.yml $STG_HOME'
-                sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
-                sh 'docker-compose -f $STG_HOME/docker-compose.yml config'
-                sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
+                sh 'docker-compose down -v'
+                sh 'docker rmi $(docker images -aq -f dangling=true)'
+                // deleteDir()
+                // dir("${workspace}@tmp") {
+                //     deleteDir()
+                // }
             }
         }
-        // stage('Cleaning WorkSpace'){
-        //     environment {
-        //         APP_PORT=9092
-        //     }
-        //     steps{
-        //         sh 'docker-compose down -v'
-        //         sh 'docker rmi $(docker images -aq -f dangling=true)'
-        //         // deleteDir()
-        //         // dir("${workspace}@tmp") {
-        //         //     deleteDir()
-        //         // }
-        //     }
-        // }
     }
     post {
         always {
