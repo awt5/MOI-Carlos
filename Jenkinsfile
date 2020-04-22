@@ -53,7 +53,7 @@ pipeline{
             //     branch 'master'
             // }
             // steps{
-            //     sh './gradlew -Dartifactory_repokey=libs_release_local artifactoryPublish'
+            //     sh './gradlew -Partifactory_repokey=libs-release-local artifactoryPublish'
             // }
         }
         stage('Publish To Docker Hub'){ 
@@ -90,19 +90,21 @@ pipeline{
         }
         // stage('Deploy To Staging'){
         //     environment {
+        //         APP_PORT=9094
         //         STG_HOME='/deployments/staging'
         //     }
         //     steps{
-        //         sh 'echo $STG_HOME'
-        //         sh 'echo clean docker-compose down, delete'
-        //         sh 'echo copy the install directory docker image, docker-compose-qa.yalm'
-        //         sh 'docker-compose config'
-        //         sh 'docker-compose up -d 9094 3308'
-        //         sh 'echo deploying to QA'
-        //         sh 'echo deploy docker-compose-qa.yaml'
+        //         sh 'mkdir $STG_HOME'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml down -v'
+        //         sh 'cp docker-compose-qa.yml $STG_HOME'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml config'
+        //         sh 'docker-compose -f $STG_HOME/docker-compose-qa.yml up -d'
         //     }
         // }
         stage('Cleaning WorkSpace'){
+            environment {
+                APP_PORT=9093
+            }
             steps{
                 sh 'docker-compose down -v'
                 sh 'docker-compose -f docker-compose-qa.yml down -v'
