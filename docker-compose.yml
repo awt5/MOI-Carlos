@@ -5,25 +5,15 @@ services:
     container_name: moi-db-compose
     environment:
       MYSQL_ROOT_PASSWORD: root
-    volumes: 
-      - moi-database:/var/lib/mysql
   moi-app:
     build: .
     image: moi-project
     container_name: moi-app-compose
     ports:
       - "9092:9091"
-    volumes:
-      - moi-project:/source/tempdata
     depends_on: 
       - moi-database
     restart: on-failure
 networks:
   default:
     name: dev-network
-
-volumes:
-    moi-database:
-        name: moi-database
-    moi-project:
-        name: moi-project

@@ -68,6 +68,9 @@ pipeline{
             }
         }
         stage('Promote To QA'){
+            environment {
+                APP_PORT=9093
+            }
             // when {
             //     branch 'develop'
             // }

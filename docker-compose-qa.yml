@@ -5,25 +5,12 @@ services:
     container_name: moi-db-compose-qa
     environment:
       MYSQL_ROOT_PASSWORD: root
-    volumes: 
-      - moi-database-qa:/var/lib/mysql
   moi-app-qa:
     image: moi-project
     container_name: moi-app-compose-qa
     ports:
-      - "9093:9091"
-    volumes:
-      - moi-project-qa:/source/tempdata
+      - "${APP_PORT}:9091"
     depends_on: 
       - moi-database
     restart: on-failure
 
-volumes:
-    moi-database-qa:
-        name: moi-database-qa
-    moi-project-qa:
-        name: moi-project-qa
-
-#docker run -d -p 3307:3306 --name moi-qa -e MYSQL_ROOT_PASSWORD=root mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-#docker build -f Dockerfile-qa -t testqa .
-#docker run -d -p 9093:9091 --name qa testqa
