@@ -106,7 +106,7 @@ pipeline{
         stage('Promote To QA'){
             environment {
                 APP_PORT=9093
-                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
+                QA_HOME='/deployments/qa'
             }
             when {
                 branch 'develop'
@@ -117,10 +117,18 @@ pipeline{
                 sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
             }
         }
+        stage('Automation Testing'){
+            when {
+                branch 'develop'
+            }
+            steps{
+                echo 'Running automation test'
+            }
+        }
         stage('Deploy To Staging'){
             environment {
                 APP_PORT=9094
-                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+                STG_HOME='/deployments/staging'
             }
             when {
                 branch 'master'
@@ -129,14 +137,6 @@ pipeline{
                 sh 'cp docker-compose.yml $STG_HOME'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml down -v'
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
-            }
-        }
-        stage('Automation Testing'){
-            when {
-                branch 'develop' || 'master'
-            }
-            steps{
-                echo 'Running automation test'
             }
         }
         stage('Cleaning WorkSpace'){
