@@ -12,6 +12,7 @@ package org.jalasoft.moi.model.core;
 import org.jalasoft.moi.controller.services.ProcessService;
 import org.jalasoft.moi.model.core.parameters.Result;
 import org.jalasoft.moi.model.exceptions.CommandBuildException;
+import org.jalasoft.moi.model.exceptions.InputParametersException;
 import org.jalasoft.moi.model.exceptions.ProcessIDException;
 import org.jalasoft.moi.model.exceptions.ResultException;
 import org.jalasoft.moi.model.interaction.ProcessCacheTest;
@@ -33,7 +34,8 @@ public class ExecuterTest {
     @Test
     public void givenTestParamAndHandlerWhenExecuteParamThenReceiveTheExpectedOutput() throws CommandBuildException, ResultException, ProcessIDException {
         //given
-        String expectedResult = "Microsoft Windows [Versión 10.0.18363.720]";
+        //String expectedResult = "Microsoft Windows [Versión 10.0.18363.720]";
+        String expectedResult = "sh: 1: VER: not found\n";
         Result currentResult;
         Executer testExecute = new Executer(processCache);
         //when
@@ -45,11 +47,11 @@ public class ExecuterTest {
     @Test
     public void throwsExceptionWhenCommandNullTest() {
         Executer executer = new Executer(new ProcessService());
-        Exception exception = assertThrows(ProcessIDException.class, () -> {
+        Exception exception = assertThrows(NullPointerException.class, () -> {
             executer.execute(null);;
         });
 
-        String expected = "Invalid process ID; id could not be captured.";
+        String expected = null;
         String actual = exception.getMessage();
 
         assertEquals(expected, actual);

@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Carlos Meneses
  * @version 1.2
  */
-@RestController
-@RequestMapping("/login")
+/*@RestController
+@RequestMapping("/login")*/
 @Api(value = "login", description = "Login a user and generates a token")
 public class LoginController {
 

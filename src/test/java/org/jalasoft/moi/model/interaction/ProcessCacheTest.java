@@ -1,5 +1,4 @@
 package org.jalasoft.moi.model.interaction;
-
 import org.jalasoft.moi.model.core.ICacheProvider;
 
 import java.util.HashMap;

@@ -21,7 +21,7 @@ import java.nio.file.Path;
  */
 public class CppCommandBuilder implements ICommandBuilder {
 
-    private static final String ALL_FILES = "\\*.cpp";
+    private static final String ALL_FILES = "/*.cpp";
     private static final String CPP_COMPILE_COMMAND = "c++ ";
 
     /**

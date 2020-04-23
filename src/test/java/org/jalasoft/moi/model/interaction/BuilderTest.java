@@ -15,7 +15,7 @@ public class BuilderTest {
 
     private ICacheProvider processCache;
 
-    public BuilderTest(ICacheProvider processCache) {
+    public BuilderTest(org.jalasoft.moi.model.interaction.ProcessCacheTest processCache) {
 
         this.processCache = processCache;
     }

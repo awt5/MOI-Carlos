@@ -9,10 +9,15 @@
 
 package org.jalasoft.moi.model.cpp;
 
-import org.jalasoft.moi.model.core.ICommandBuilder;
+/*import org.jalasoft.moi.model.core.ICommandBuilder;
 import org.jalasoft.moi.model.core.Language;
 import org.jalasoft.moi.model.core.parameters.Params;
 import org.jalasoft.moi.model.core.parameters.Parameters;
+import org.jalasoft.moi.model.cplusplus.CppCommandBuilder;*/
+import org.jalasoft.moi.model.core.ICommandBuilder;
+import org.jalasoft.moi.model.core.Language;
+import org.jalasoft.moi.model.core.parameters.Parameters;
+import org.jalasoft.moi.model.core.parameters.Params;
 import org.jalasoft.moi.model.cplusplus.CppCommandBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +30,9 @@ public class CppCommandBuilderTest {
     @Test
     public void cppCommandBuilderTest() {
         //given
-        Parameters params = getParams(".\\temp\\cplusplus\\test\\test.cpp");
+        Parameters params = getParams("/home/carlos/test");
         ICommandBuilder cppCommandBuilder = new CppCommandBuilder();
-        String expectedCommand = "c++ .\\temp\\cplusplus\\test\\*.cpp -o .\\temp\\cplusplus\\test\\test.exe && " +
-                ".\\temp\\cplusplus\\test\\test.exe";
+        String expectedCommand = "c++ /home/carlos/*.cpp -o /home/carlos/test && /home/carlos/test";
         //when
         String currentCommand = cppCommandBuilder.buildCommand(params.getFilesPath());
         //then
