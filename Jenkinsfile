@@ -16,7 +16,7 @@ pipeline{
                     if (env.BRANCH_NAME == 'master') {
                         sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
                     } else {
-                    sh './gradlew clean build'
+                        sh './gradlew clean build'
                     }
                 }
             }
