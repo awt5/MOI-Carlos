@@ -11,10 +11,10 @@ pipeline{
     stages{
         stage('Build'){ 
             steps{
-                sh 'chmod +x gradlew'
                 if (env.BRANCH_NAME == 'master') {
                     sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
                 } else {
+                    sh 'chmod +x gradlew'
                     sh './gradlew clean build'
                 }
             }
