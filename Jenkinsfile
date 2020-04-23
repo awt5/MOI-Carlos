@@ -117,14 +117,6 @@ pipeline{
                 sh 'docker-compose -f $QA_HOME/docker-compose.yml up -d'
             }
         }
-        stage('Automation Testing'){
-            when {
-                branch 'develop'
-            }
-            steps{
-                echo 'Running automation test'
-            }
-        }
         stage('Deploy To Staging'){
             environment {
                 APP_PORT=9094
@@ -139,12 +131,22 @@ pipeline{
                 sh 'docker-compose -f $STG_HOME/docker-compose.yml up -d'
             }
         }
-        stage('Cleaning WorkSpace'){
-            // environment {
-            //     APP_PORT=9092
-            // }
+        stage('Automation Testing'){
+            when {
+                anyOf{
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
             steps{
-                sh 'export APP_PORT=9092'
+                echo 'Running automation test'
+            }
+        }
+        stage('Cleaning WorkSpace'){
+            environment {
+                APP_PORT=9092
+            }
+            steps{
                 sh 'docker-compose down -v'
                 sh 'docker image prune -a'
                 // deleteDir()
