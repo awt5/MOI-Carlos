@@ -11,11 +11,13 @@ pipeline{
     stages{
         stage('Build'){ 
             steps{
-                if (env.BRANCH_NAME == 'master') {
-                    sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
-                } else {
-                    sh 'chmod +x gradlew'
+                sh 'chmod +x gradlew'
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
+                    } else {
                     sh './gradlew clean build'
+                    }
                 }
             }
             post {
@@ -136,6 +138,9 @@ pipeline{
                 sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
+                //     deleteDir()
+                // }
+                // dir("${workspace}@script") {
                 //     deleteDir()
                 // }
             }
