@@ -9,29 +9,16 @@ pipeline{
         DOCKER_USER = 'carlosmc23'
     }
     stages{
-        stage('Build Snapshot'){ 
+        stage('Build'){ 
             steps{
                 sh 'chmod +x gradlew'
-                sh './gradlew clean build'
-            } 
-            post {
-            always{
-                sh 'touch build/test-results/test/*.xml'
-                junit 'build/test-results/test/*.xml'
-                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
-                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
+                    } else {
+                        sh './gradlew clean build'
+                    }
                 }
-            success {
-                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                }
-            }  
-        }
-        stage('Build Release'){
-            when {
-                branch 'master'
-            }
-            steps{
-                sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
             }
             post {
             always{
@@ -81,13 +68,24 @@ pipeline{
                 sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
             }
         }
-        stage('Publish To Docker Hub'){ 
+        stage('Publish DockerHub Develop'){ 
             when {
                 branch 'develop'
             }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDIS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
+                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:$BUILD_NUMBER'
+                    sh 'docker push ${DOCKER_USER}/${PROJECT_NAME}'
+                }
+            }
+        }
+        stage('Publish DockerHub Release'){ 
+            when {
+                branch 'master'
+            }
+            steps{
+                withDockerRegistry([ credentialsId: "${DOCKER_CREDIS}", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:${PROJECT_VER}'
                     sh 'docker push ${DOCKER_USER}/${PROJECT_NAME}'
                 }
             }
@@ -95,7 +93,7 @@ pipeline{
         stage('Promote To QA'){
             environment {
                 APP_PORT=9093
-                QA_HOME='/home/carlos/awt05/carlos-MOI/deployments/qa'
+                QA_HOME='/deployments/qa'
             }
             when {
                 branch 'develop'
@@ -109,7 +107,7 @@ pipeline{
         stage('Deploy To Staging'){
             environment {
                 APP_PORT=9094
-                STG_HOME='/home/carlos/awt05/carlos-MOI/deployments/staging'
+                STG_HOME='/deployments/staging'
             }
             when {
                 branch 'master'
@@ -122,7 +120,10 @@ pipeline{
         }
         stage('Automation Testing'){
             when {
-                branch 'develop'
+                anyOf{
+                    branch 'develop'
+                    branch 'master'
+                }
             }
             steps{
                 echo 'Running automation test'
@@ -134,10 +135,12 @@ pipeline{
             }
             steps{
                 sh 'docker-compose down -v'
-                //sh 'docker rmi $(docker images -aq -f dangling=true)'
                 sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
+                //     deleteDir()
+                // }
+                // dir("${workspace}@script") {
                 //     deleteDir()
                 // }
             }
@@ -145,12 +148,7 @@ pipeline{
     }
     post {
         always {
-            mail to: "${EMAIL_ADMIN}",
-                 subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
-                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
-        }
-        failure {
-            mail to: "${EMAIL_TEAM}",
+            mail to: "${EMAIL_ADMIN},${EMAIL_TEAM}",
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
         }
