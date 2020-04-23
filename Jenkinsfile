@@ -81,13 +81,24 @@ pipeline{
                 sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
             }
         }
-        stage('Publish To Docker Hub'){ 
+        stage('Publish DockerHub Develop'){ 
             when {
                 branch 'develop'
             }
             steps{
                 withDockerRegistry([ credentialsId: "${DOCKER_CREDIS}", url: "https://index.docker.io/v1/" ]) {
-                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:v1.0-$BUILD_NUMBER'
+                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:$BUILD_NUMBER'
+                    sh 'docker push ${DOCKER_USER}/${PROJECT_NAME}'
+                }
+            }
+        }
+        stage('Publish DockerHub Release'){ 
+            when {
+                branch 'master'
+            }
+            steps{
+                withDockerRegistry([ credentialsId: "${DOCKER_CREDIS}", url: "https://index.docker.io/v1/" ]) {
+                    sh 'docker tag ${PROJECT_NAME}:latest ${DOCKER_USER}/${PROJECT_NAME}:${PROJECT_VER}'
                     sh 'docker push ${DOCKER_USER}/${PROJECT_NAME}'
                 }
             }
@@ -122,7 +133,7 @@ pipeline{
         }
         stage('Automation Testing'){
             when {
-                branch 'develop'
+                branch 'develop' || 'master'
             }
             steps{
                 echo 'Running automation test'
@@ -134,7 +145,6 @@ pipeline{
             }
             steps{
                 sh 'docker-compose down -v'
-                //sh 'docker rmi $(docker images -aq -f dangling=true)'
                 sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
@@ -145,12 +155,7 @@ pipeline{
     }
     post {
         always {
-            mail to: "${EMAIL_ADMIN}",
-                 subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
-                 body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
-        }
-        failure {
-            mail to: "${EMAIL_TEAM}",
+            mail to: "${EMAIL_ADMIN},${EMAIL_TEAM}",
                  subject: "${currentBuild.currentResult} Pipeline in ${currentBuild.fullDisplayName}",
                  body: "The pipeline: ${currentBuild.fullDisplayName}, has been executed with the next result: ${currentBuild.currentResult} Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.\nMore details: ${env.BUILD_URL}."
         }
