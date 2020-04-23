@@ -9,11 +9,15 @@ pipeline{
         DOCKER_USER = 'carlosmc23'
     }
     stages{
-        stage('Build Snapshot'){ 
+        stage('Build'){ 
             steps{
                 sh 'chmod +x gradlew'
-                sh './gradlew clean build'
-            } 
+                if (env.BRANCH_NAME == 'master') {
+                    sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
+                } else {
+                    sh './gradlew clean build'
+                }
+            }
             post {
             always{
                 sh 'touch build/test-results/test/*.xml'
@@ -26,24 +30,6 @@ pipeline{
                 }
             }  
         }
-        stage('Build Release'){
-            when {
-                branch 'master'
-            }
-            steps{
-                sh './gradlew -Pmoi_version=${PROJECT_VER} clean build'
-            }
-            post {
-            always{
-                sh 'touch build/test-results/test/*.xml'
-                junit 'build/test-results/test/*.xml'
-                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/tests/test', reportFiles: 'index.html', reportName: "MOI-project test Report"])
-                publishHTML (target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: "MOI-project test Coverage"])
-                }
-            success {
-                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                }
-            }  
         }
         stage('Code Quality'){ 
             steps{
