@@ -140,10 +140,11 @@ pipeline{
             }
         }
         stage('Cleaning WorkSpace'){
-            environment {
-                APP_PORT=9092
-            }
+            // environment {
+            //     APP_PORT=9092
+            // }
             steps{
+                sh 'export APP_PORT=9092'
                 sh 'docker-compose down -v'
                 sh 'docker image prune -a'
                 // deleteDir()
