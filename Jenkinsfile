@@ -30,7 +30,6 @@ pipeline{
                 }
             }  
         }
-        }
         stage('Code Quality'){ 
             steps{
                 sh './gradlew sonarqube'
