@@ -52,22 +52,22 @@ pipeline{
                 echo 'Running acceptance test'
             }
         }
-        stage('Publish Artifactory SnapshotLibs'){ 
-            when {
-                branch 'develop'
-            }
-            steps{
-                sh './gradlew artifactoryPublish'
-            }
-        }
-        stage('Publish Artifactory ReleaseLibs'){
-            when {
-                branch 'master'
-            }
-            steps{
-                sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
-            }
-        }
+        // stage('Publish Artifactory SnapshotLibs'){ 
+        //     when {
+        //         branch 'develop'
+        //     }
+        //     steps{
+        //         sh './gradlew artifactoryPublish'
+        //     }
+        // }
+        // stage('Publish Artifactory ReleaseLibs'){
+        //     when {
+        //         branch 'master'
+        //     }
+        //     steps{
+        //         sh './gradlew -Pmoi_version=${PROJECT_VER} -Partifactory_repokey=libs-release-local artifactoryPublish'
+        //     }
+        // }
         stage('Publish DockerHub Develop'){ 
             when {
                 branch 'develop'
