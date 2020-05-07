@@ -136,7 +136,7 @@ pipeline{
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker image prune -a'
+                //sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
                 //     deleteDir()
