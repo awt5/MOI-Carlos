@@ -56,7 +56,7 @@ pipeline{
                 // build job: 'cucumber-demo', parameters: [
                 // string(name: 'ENV_DEPLOY_NAME', value: "${ENV_DEPLOY_NAME}")
                 // ]   
-                build job: "cucumber-demo/carlos-meneses/jenkinsfile", propagate: true, wait: true
+                build job: "cucumber-demo", propagate: true, wait: true
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
