@@ -53,7 +53,7 @@ pipeline{
             }
             steps {
                 //echo 'Running acceptance test'
-                build job: 'cucumber-demo/feature/linuxchanges', parameters: [
+                build job: 'cucumber-demo/carlos-meneses/jenkinsfile', parameters: [
                 string(name: 'ENV_DEPLOY_NAME', value: "${ENV_DEPLOY_NAME}")
                 ]   
             }
