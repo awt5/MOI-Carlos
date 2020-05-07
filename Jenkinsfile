@@ -39,7 +39,7 @@ pipeline{
         }
         stage('Deploy To Dev'){
             environment {
-                APP_PORT=9092
+                APP_PORT=9091
             }
             steps{
                 sh 'docker-compose config'
@@ -49,7 +49,8 @@ pipeline{
         }
         stage('Run Acceptance Tests'){
             steps {
-                build job: 'cucumber-demo/carlos-meneses/jenkinsfile'    
+                echo 'Running acceptance test'
+                //build job: 'cucumber-demo/carlos-meneses/jenkinsfile'    
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
@@ -92,7 +93,7 @@ pipeline{
         }
         stage('Promote To QA'){
             environment {
-                APP_PORT=9093
+                APP_PORT=9092
                 QA_HOME='/deployments/qa'
             }
             when {
@@ -106,7 +107,7 @@ pipeline{
         }
         stage('Deploy To Staging'){
             environment {
-                APP_PORT=9094
+                APP_PORT=9093
                 STG_HOME='/deployments/staging'
             }
             when {
@@ -131,7 +132,7 @@ pipeline{
         }
         stage('Cleaning WorkSpace'){
             environment {
-                APP_PORT=9092
+                APP_PORT=9091
             }
             steps{
                 sh 'docker-compose down -v'
