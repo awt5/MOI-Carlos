@@ -48,14 +48,15 @@ pipeline{
             }   
         }
         stage('Run Acceptance Tests'){
-            environment{
-                ENV_DEPLOY_NAME= 'DEV'
-            }
+            // environment{
+            //     ENV_DEPLOY_NAME= 'DEV'
+            // }
             steps {
                 //echo 'Running acceptance test'
-                build job: 'cucumber-demo/carlos-meneses/jenkinsfile', parameters: [
-                string(name: 'ENV_DEPLOY_NAME', value: "${ENV_DEPLOY_NAME}")
-                ]   
+                // build job: 'cucumber-demo', parameters: [
+                // string(name: 'ENV_DEPLOY_NAME', value: "${ENV_DEPLOY_NAME}")
+                // ]   
+                build job: 'cucumber-demo/carlos-meneses/jenkinsfile', propagate: true, wait: true
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
