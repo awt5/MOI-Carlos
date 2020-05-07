@@ -49,8 +49,8 @@ pipeline{
         }
         stage('Run Acceptance Tests'){
             steps {
-                echo 'Running acceptance test'
-                //build job: 'cucumber-demo/carlos-meneses/jenkinsfile'    
+                //echo 'Running acceptance test'
+                build job: 'cucumber-demo/carlos-meneses/jenkinsfile'    
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
