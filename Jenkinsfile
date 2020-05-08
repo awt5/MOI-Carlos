@@ -53,12 +53,6 @@ pipeline{
                 parameters: [[string(name: 'TAG_NAME', value: "@acceptance")], [string(name: 'ENV_NAME', value: "DEV")]]   
             }
         }
-        stage('Run all Tests'){
-            steps {  
-                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
-                parameters: [[string(name: 'TAG_NAME', value: " ")], [string(name: 'ENV_NAME', value: "QA")]]    
-            }
-        }
         // stage('Publish Artifactory SnapshotLibs'){ 
         //     when {
         //         branch 'develop'
@@ -132,8 +126,9 @@ pipeline{
                     branch 'master'
                 }
             }
-            steps{
-                echo 'Running automation test'
+            steps{  
+                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
+                parameters: [[string(name: 'TAG_NAME', value: " ")], [string(name: 'ENV_NAME', value: "QA")]]    
             }
         }
         stage('Cleaning WorkSpace'){
