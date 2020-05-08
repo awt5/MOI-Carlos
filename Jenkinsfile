@@ -39,7 +39,7 @@ pipeline{
         }
         stage('Deploy To Dev'){
             environment {
-                APP_PORT=9092
+                APP_PORT=9091
             }
             steps{
                 sh 'docker-compose config'
@@ -48,8 +48,12 @@ pipeline{
             }   
         }
         stage('Run Acceptance Tests'){
-            steps{
-                echo 'Running acceptance test'
+            steps {  
+                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
+                parameters: [
+                    string(name: 'TAG_NAME', value: "@acceptance"),
+                    string(name: 'ENV_NAME', value: "DEV")
+                ]   
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
@@ -92,7 +96,7 @@ pipeline{
         }
         stage('Promote To QA'){
             environment {
-                APP_PORT=9093
+                APP_PORT=9092
                 QA_HOME='/deployments/qa'
             }
             when {
@@ -106,7 +110,7 @@ pipeline{
         }
         stage('Deploy To Staging'){
             environment {
-                APP_PORT=9094
+                APP_PORT=9093
                 STG_HOME='/deployments/staging'
             }
             when {
@@ -125,17 +129,21 @@ pipeline{
                     branch 'master'
                 }
             }
-            steps{
-                echo 'Running automation test'
+            steps{  
+                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
+                parameters: [
+                    string(name: 'TAG_NAME', value: " "),
+                    string(name: 'ENV_NAME', value: "QA")
+                ]    
             }
         }
         stage('Cleaning WorkSpace'){
             environment {
-                APP_PORT=9092
+                APP_PORT=9091
             }
             steps{
                 sh 'docker-compose down -v'
-                sh 'docker image prune -a'
+                //sh 'docker image prune -a'
                 // deleteDir()
                 // dir("${workspace}@tmp") {
                 //     deleteDir()
