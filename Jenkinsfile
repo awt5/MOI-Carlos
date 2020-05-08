@@ -50,7 +50,10 @@ pipeline{
         stage('Run Acceptance Tests'){
             steps {  
                 build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
-                parameters: [[string(name: 'TAG_NAME', value: "@acceptance")], [string(name: 'ENV_NAME', value: "DEV")]]   
+                parameters: [
+                    string(name: 'TAG_NAME', value: "@acceptance"),
+                    string(name: 'ENV_NAME', value: "DEV")
+                ]   
             }
         }
         // stage('Publish Artifactory SnapshotLibs'){ 
@@ -128,7 +131,10 @@ pipeline{
             }
             steps{  
                 build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
-                parameters: [[string(name: 'TAG_NAME', value: " ")], [string(name: 'ENV_NAME', value: "QA")]]    
+                parameters: [
+                    string(name: 'TAG_NAME', value: " "),
+                    string(name: 'ENV_NAME', value: "QA")
+                ]    
             }
         }
         stage('Cleaning WorkSpace'){
