@@ -49,9 +49,9 @@ pipeline{
         }
         stage('Run Acceptance Tests'){
             steps {  
-                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
+                build job: "moi-api-tests/develop", propagate: true, wait: true,
                 parameters: [
-                    string(name: 'TAG_NAME', value: "@acceptance"),
+                    string(name: 'TAG_NAME', value: "@functional"),
                     string(name: 'ENV_NAME', value: "DEV")
                 ]   
             }
@@ -130,7 +130,7 @@ pipeline{
                 }
             }
             steps{  
-                build job: "cucumber-demo/jenkinsfile", propagate: true, wait: true,
+                build job: "moi-api-tests/develop", propagate: true, wait: true,
                 parameters: [
                     string(name: 'TAG_NAME', value: " "),
                     string(name: 'ENV_NAME', value: "QA")
