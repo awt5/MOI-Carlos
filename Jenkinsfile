@@ -47,7 +47,7 @@ pipeline{
                 sh 'docker-compose up -d'
             }   
         }
-        stage('Run Acceptance Tests'){
+        stage('Run Functional Tests'){
             steps {  
                 build job: "moi-api-tests/develop", propagate: true, wait: true,
                 parameters: [
